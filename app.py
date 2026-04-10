@@ -15,14 +15,13 @@ with col2:
 
 st.markdown("<h3 style='text-align: center; color: #D4AF37;'>❤️ اهلا بكم في بيوتي سنتر يارا ثروت ❤️</h3>", unsafe_allow_html=True)
 
-# 4. الشريط الجانبي (Sidebar) - العنوان متقسم لسطور عشان يظهر كامل
+# 4. الشريط الجانبي (Sidebar)
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown("### 📞 للتواصل")
     st.info("01055901090\n\n01055907095")
     
     st.markdown("### 📍 العنوان")
-    # تقسيم العنوان عشان يبان كله في الشاشة
     st.success("منيه النصر - الدقهلية\n\nشارع البحر - مقابل ستار مول\n\nأعلى يونيكورن - الدور الخامس")
 
 # 5. فورم إدخال البيانات
@@ -34,7 +33,6 @@ with st.form("booking_form"):
     u_address = st.text_input("العنوان بالتفصيل")
     u_phone = st.text_input("رقم الهاتف")
     
-    # الزرار اللي كان بيعمل مشكلة (Submit Button)
     submit = st.form_submit_button("إرسال البيانات")
     
     if submit:
@@ -44,11 +42,13 @@ with st.form("booking_form"):
             encoded_msg = urllib.parse.quote(raw_msg)
             wa_link = f"https://wa.me/{whatsapp_num}?text={encoded_msg}"
             
-            st.success("تمام يا بطل! بياناتك جاهزة.")
+            # التعديل اللي طلبته: شيلنا كلمة بطل
+            st.success("تمام! بياناتك جاهزة.")
+            
             # زرار الواتساب
             st.markdown(f'<a href="{wa_link}" target="_blank" style="background-color: #25D366; color: white; padding: 15px 25px; text-decoration: none; border-radius: 10px; font-weight: bold; display: block; text-align: center;">اضغط هنا لفتح واتساب وتأكيد الحجز</a>', unsafe_allow_html=True)
         else:
-            st.error("يا آدم، لازم يملأ الاسم والعنوان والتليفون.")
+            st.error("من فضلك، املأ الاسم والعنوان والتليفون عشان الحجز يكمل.")
 
 # 6. تذييل الصفحة
 st.markdown("<br><hr><p style='text-align: center; color: gray;'>❤️ شكراً لاختياركم بيوتي سنتر يارا ثروت ❤️</p>", unsafe_allow_html=True)
