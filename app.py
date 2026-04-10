@@ -1,14 +1,10 @@
 import streamlit as st
-import os
 
 st.set_page_config(page_title="بوابة خدمة العملاء", layout="centered")
 
-# تجربة قراءة الصورة من الملفات المرفوعة
-possible_names = ["logo.jpg", "logo.png", "logo.jpeg"]
-for name in possible_names:
-    if os.path.exists(name):
-        st.image(name, width=300)
-        break
+image_url = "https://i.ibb.co/3yxYvWf/image-6cdba7.jpg"
+
+st.image(image_url, width=300)
 
 st.title("أهلاً بك في خدمتنا")
 
