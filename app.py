@@ -2,8 +2,9 @@ import streamlit as st
 
 st.set_page_config(page_title="بوابة خدمة العملاء", layout="centered")
 
-# ده لينك مباشر للصورة بتاعتك أنا جهزتهولك عشان يظهر فوراً
-image_url = "https://i.ibb.co/3yxYvWf/image-6cdba7.jpg"
+# اللينك ده بيقرأ الصورة مباشرة من حسابك على GitHub
+# تأكد إن اسم حسابك add2m واسم المستودع my-first-app والصورة logo.jpg
+image_url = "https://raw.githubusercontent.com/add2m/my-first-app/master/logo.jpg"
 
 st.image(image_url, width=300)
 
