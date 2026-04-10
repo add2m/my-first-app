@@ -1,16 +1,20 @@
 import streamlit as st
 import urllib.parse
 
-st.set_page_config(page_title="بوابة خدمة العملاء", layout="centered")
+st.set_page_config(page_title="بيوتي سنتر يارا ثروت", layout="centered")
 
 # رابط اللوجو
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 
-# عرض اللوجو والبيانات الجانبية
+# عرض اللوجو
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.image(logo_url, use_container_width=True)
 
+# الجملة اللي طلبتها تحت اللوجو علطول
+st.markdown("<h3 style='text-align: center; color: #D4AF37;'>❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️</h3>", unsafe_allow_html=True)
+
+# الشريط الجانبي (Sidebar)
 with st.sidebar:
     st.image(logo_url, width=150)
     st.title("تواصل معنا")
@@ -52,27 +56,4 @@ if not st.session_state.confirmed:
             st.write(f"**{key}:** {value}")
         
         col1, col2 = st.columns(2)
-        if col1.button("أيوه، البيانات صحيحة"):
-            # تجهيز رسالة الواتساب
-            msg = f"طلب جديد من الموقع:\n\nالاسم: {st.session_state.user_data['الاسم']}\nالسن: {st.session_state.user_data['السن']}\nالعنوان: {st.session_state.user_data['العنوان']}\nالهاتف: {st.session_state.user_data['رقم الهاتف']}\nالإيميل: {st.session_state.user_data['البريد الإلكتروني']}"
-            msg_encoded = urllib.parse.quote(msg)
-            
-            # رقم الواتساب بتاعك (تم استخدام الرقم الأول)
-            whatsapp_url = f"https://wa.me/201055901090?text={msg_encoded}"
-            
-            st.markdown(f'<meta http-equiv="refresh" content="0;URL=\'{whatsapp_url}\' />', unsafe_allow_html=True)
-            st.session_state.confirmed = True
-            st.rerun()
-            
-        if col2.button("لا، أريد التعديل"):
-            st.session_state.review = False
-            st.rerun()
-
-else:
-    st.success("تم تحويلك للواتساب لإرسال البيانات!")
-    st.balloons()
-    if st.button("تسجيل مستخدم جديد"):
-        st.session_state.confirmed = False
-        st.rerun()
-
-st.markdown("<br><hr><p style='text-align: center; color: gray;'>❤️ شكراً لتعاملك معنا ❤️</p>", unsafe_allow_html=True)
+        if col1.button("
