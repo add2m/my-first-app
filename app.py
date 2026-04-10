@@ -3,12 +3,17 @@ import os
 
 st.set_page_config(page_title="بوابة خدمة العملاء", layout="centered")
 
-image_path = "logo.png" 
+# البحث عن الصورة بأكثر من صيغة
+image_found = False
+for ext in ["png", "jpg", "jpeg"]:
+    path = f"logo.{ext}"
+    if os.path.exists(path):
+        st.image(path, width=300)
+        image_found = True
+        break
 
-if os.path.exists(image_path):
-    st.image(image_path, width=300)
-else:
-    st.info("ارفع الصورة على GitHub وسميها logo.png عشان تظهر هنا")
+if not image_found:
+    st.info("ارفع الصورة على GitHub وسميها logo.png أو logo.jpg")
 
 st.title("أهلاً بك في خدمتنا")
 
