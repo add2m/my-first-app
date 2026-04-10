@@ -37,12 +37,18 @@ with st.form("booking_form"):
     
     if submit:
         if u_name and u_address and u_phone:
-            # تجهيز الرسالة
-            raw_msg = f"حجز جديد من الموقع:\n- الاسم: {u_name}\n- السن: {u_age}\n- العنوان: {u_address}\n- الهاتف: {u_phone}"
+            # تعديل تنسيق الرسالة عشان تظهر مظبوطة في واتساب
+            # شيلنا النقط والرموز اللي بتبوظ الترتيب العربي
+            raw_msg = (
+                f"حجز جديد من الموقع\n"
+                f"الاسم: {u_name}\n"
+                f"السن: {u_age}\n"
+                f"العنوان: {u_address}\n"
+                f"الهاتف: {u_phone}"
+            )
             encoded_msg = urllib.parse.quote(raw_msg)
             wa_link = f"https://wa.me/{whatsapp_num}?text={encoded_msg}"
             
-            # التعديل اللي طلبته: شيلنا كلمة بطل
             st.success("تمام! بياناتك جاهزة.")
             
             # زرار الواتساب
