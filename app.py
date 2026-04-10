@@ -8,7 +8,7 @@ col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.image(logo_url, use_container_width=True)
 
-st.markdown("<h1 style='text-align: center;'>أهلاً بك في خدمتنا</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️</h1>", unsafe_allow_html=True)
 
 if 'confirmed' not in st.session_state:
     st.session_state.confirmed = False
