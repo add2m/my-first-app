@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="بوابة خدمة العملاء", layout="centered")
 
-st.title("أهلاً بك في خدمتنا")
+st.title("❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️")
 
 if 'confirmed' not in st.session_state:
     st.session_state.confirmed = False
