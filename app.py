@@ -19,7 +19,7 @@ def go_to(page_name):
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown("### 📞 للتواصل\n01055901090\n\n01055907095")
-    st.markdown("### 📍 العنوان\nالدقهليه - مركز منيه النصر-\nشارع البحر - مقابل استار مول - \n اعلى يونيكورن الدور الخامس")
+    st.markdown("### 📍 العنوان\nالدقهليه - منيه النصر - شارع البحر\nمقابل استار مول - الدور الخامس")
 
 # --- محتوى الصفحات ---
 
@@ -28,7 +28,6 @@ if st.session_state.page == 'home':
     st.image(logo_url, use_container_width=True)
     st.markdown("<h2 style='text-align: center; color: #D4AF37;'>❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️</h2>", unsafe_allow_html=True)
     
-    # أزرار موبايل كبيرة
     st.button("📅 للحجز", use_container_width=True, on_click=go_to, args=('booking',))
     st.button("💰 قائمة الأسعار", use_container_width=True, on_click=go_to, args=('prices',))
     st.button("✨ صور لشغلنا", use_container_width=True, on_click=go_to, args=('gallery',))
@@ -63,4 +62,9 @@ elif st.session_state.page == 'prices':
 # د. صفحة المعرض
 elif st.session_state.page == 'gallery':
     st.markdown("### ✨ معرض الأعمال")
-    st.success("قريباً سيتم عرض الصور هنا
+    st.success("قريباً سيتم عرض الصور هنا")
+    st.button("🏠 العودة للرئيسية", use_container_width=True, on_click=go_to, args=('home',))
+
+# تذييل الصفحة
+st.write("---")
+st.caption("شكرا لاختياركم بيوتي سنتر يارا ثروت💕")
