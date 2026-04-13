@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="✨اهلا بكم في بيوتي سنتر يارا ثروت✨", layout="centered")
 
-# --- وظيفة حساب حالة العمل (توقيت مصر UTC+3) ---
+# --- وظيفة حساب حالة العمل ---
 def get_business_status():
     now = datetime.utcnow() + timedelta(hours=3)
     current_hour = now.hour
@@ -84,12 +84,42 @@ elif current_page == "gallery":
     if st.button("العودة للرئيسية"): st.query_params.clear(); st.rerun()
 
 else:
-    # الصفحة الرئيسية - تثبيت الكلمة قصاد السهمين بالظبط
+    # الصفحة الرئيسية
+    # إضافة "الزر العائم" لجذب الانتباه للقائمة الجانبية
     st.markdown('''
-        <div style="position: absolute; top: -50px; left: 10px; z-index: 1000;">
-            <p style="color: #D4AF37; font-size: 14px; font-weight: bold; background-color: rgba(14, 17, 23, 0.8); padding: 5px; border-radius: 5px;">
-                👈 انقري على السهم هنا للمزيد
-            </p>
+        <style>
+        /* إخفاء زر Fork الافتراضي عشان ميزحمش الدنيا */
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        
+        /* تصميم الزر العائم الشيك */
+        .floating-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #D4AF37;
+            color: black;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+            z-index: 99999;
+            animation: pulse 2s infinite;
+            cursor: pointer;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+        </style>
+        <div class="floating-menu" onclick="document.querySelector('.stSidebar').style.display='block'">
+            ☰
         </div>
     ''', unsafe_allow_html=True)
 
