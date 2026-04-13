@@ -1,32 +1,27 @@
 import streamlit as st
 import urllib.parse
 
-# 1. إعدادات الصفحة للموبايل
+# 1. إعدادات الصفحة
 st.set_page_config(page_title="بيوتي سنتر يارا ثروت", layout="centered")
 
-# 2. روابط البيانات الأساسية
+# 2. روابط البيانات
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 whatsapp_num = "201055901090"
 
-# 3. التأكد من فتح الصفحة الرئيسية فوراً
+# 3. نظام التنقل (Session State)
 if 'page' not in st.session_state:
     st.session_state.page = 'home'
 
 def go_to(page_name):
     st.session_state.page = page_name
 
-# 4. الشريط الجانبي الثابت (Sidebar)
+# 4. الشريط الجانبي (ثابت فيه التليفون والعنوان فقط)
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown("### 📞 للتواصل")
     st.info("01055901090\n\n01055907095")
     st.markdown("### 📍 العنوان")
     st.success("منيه النصر - الدقهلية\n\nشارع البحر - مقابل ستار مول")
-    
-    # زرار الرجوع يظهر في الجنب "فقط" لو العميل داخل صفحة فرعية
-    if st.session_state.page != 'home':
-        st.write("---")
-        st.button("🏠 العودة للرئيسية", on_click=go_to, args=('home',), use_container_width=True)
 
 # --- محتوى الصفحات ---
 
@@ -36,7 +31,7 @@ if st.session_state.page == 'home':
     st.markdown("<h2 style='text-align: center; color: #D4AF37;'>مرحباً بكم في بيوتي سنتر يارا ثروت</h2>", unsafe_allow_html=True)
     st.write("<p style='text-align: center;'>اختار القسم الذي تريده:</p>", unsafe_allow_html=True)
     
-    # أزرار كبيرة للموبايل بضغطة واحدة
+    # أزرار الأقسام بضغطة واحدة
     st.button("📅 حجز موعد", use_container_width=True, on_click=go_to, args=('booking',))
     st.button("💰 قائمة الأسعار", use_container_width=True, on_click=go_to, args=('prices',))
     st.button("✨ معرض الأعمال", use_container_width=True, on_click=go_to, args=('gallery',))
@@ -53,25 +48,25 @@ elif st.session_state.page == 'booking':
         
         if submit:
             if u_name and u_phone:
-                # تنسيق الرسالة لضمان الترتيب الصحيح في واتساب
-                msg = f"حجز جديد من الموقع\nالاسم: {u_name}\nالسن: {u_age}\nالعنوان: {u_address}\nالهاتف: {u_phone}"
+                msg = f"حجز جديد:\nالاسم: {u_name}\nالسن: {u_age}\nالعنوان: {u_address}\nالهاتف: {u_phone}"
                 encoded_msg = urllib.parse.quote(msg)
                 link = f"https://wa.me/{whatsapp_num}?text={encoded_msg}"
                 st.success("تمام! بياناتك جاهزة.")
                 st.markdown(f'<a href="{link}" target="_blank" style="background-color: #25D366; color: white; padding: 15px 25px; text-decoration: none; border-radius: 10px; font-weight: bold; display: block; text-align: center;">تأكيد الحجز عبر واتساب</a>', unsafe_allow_html=True)
-            else:
-                st.error("يرجى كتابة الاسم ورقم الهاتف على الأقل.")
+    
+    # زرار العودة للقائمة الرئيسية (جوه الصفحة من تحت)
+    st.write("---")
+    st.button("🏠 العودة للقائمة الرئيسية", use_container_width=True, on_click=go_to, args=('home',))
 
-# ج. صفحة الأسعار (مكان فاضي للصور)
+# ج. صفحة الأسعار
 elif st.session_state.page == 'prices':
     st.markdown("<h2 style='text-align: center;'>💰 قائمة الأسعار</h2>", unsafe_allow_html=True)
-    st.info("ابعت لي صور المنيو عشان نحطها هنا")
+    st.info("سيتم إضافة صور المنيو هنا قريباً...")
+    
+    # زرار العودة للقائمة الرئيسية (جوه الصفحة من تحت)
+    st.write("---")
+    st.button("🏠 العودة للقائمة الرئيسية", use_container_width=True, on_click=go_to, args=('home',))
 
-# د. صفحة المعرض (مكان فاضي للصور)
+# د. صفحة المعرض
 elif st.session_state.page == 'gallery':
-    st.markdown("<h2 style='text-align: center;'>✨ معرض أعمالنا</h2>", unsafe_allow_html=True)
-    st.success("ابعت لي صور الشغل عشان أرتبها لك هنا")
-
-# تذييل بسيط
-st.write("---")
-st.markdown("<p style='text-align: center; color: gray; font-size: 14px;'>مركز يارا ثروت - جمالك هو تخصصنا</p>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center;'>✨ معرض أعمالنا</h2>", unsafe_allow_
