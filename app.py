@@ -2,10 +2,10 @@ import streamlit as st
 import urllib.parse
 import os
 
-# 1. إعدادات الصفحة
+# 1. إعدادات الصفحة - تم تغيير القلب لـ ✨
 st.set_page_config(page_title="✨اهلا بكم في بيوتي سنتر يارا ثروت✨", layout="centered")
 
-# --- وظيفة الآراء (حذف تعليق محدد) ---
+# --- وظائف الموقع ---
 def handle_reviews(action="read", data=None):
     file_path = "reviews.txt"
     if not os.path.exists(file_path):
@@ -27,6 +27,9 @@ phone_1 = "01055901090"
 phone_2 = "01055907095"
 ADMIN_PASSWORD = "9811" 
 
+site_url = "https://yara-tharwat.streamlit.app" 
+share_msg = urllib.parse.quote(f"بصي يا جميلة، شوفت بيوتي سنتر يارا ثروت وشغله عجبني جداً، شوفي موقعهم من هنا: {site_url}")
+
 video_ids = ["1eC2Vhnj9ON69lKyMPWtrXENQiDA8QnBL", "1w1PWV3eQaXAz1Cdz5WBJrtX3lDSi4hzi", 
              "1SuxPy8-LsRE4iizxcR531sTXPeZdY-n0", "1wlMl0Mi7COStjKh1d8B9JxWqj7Cf-fD1", 
              "1mGeV2CQrYyJCwZkSGBrB2rhMqta8BlOU"]
@@ -36,8 +39,6 @@ query_params = st.query_params
 current_page = query_params.get("p", "home")
 
 # 4. محتوى الصفحات
-# ------------------------------
-
 if current_page == "booking":
     st.markdown("### 📅 بيانات الحجز")
     with st.form("booking_form"):
@@ -52,14 +53,7 @@ if current_page == "booking":
 
 elif current_page == "prices":
     st.markdown("### 💰 قائمة الأسعار")
-
-    st.markdown('''
-    <div style="padding: 20px; border: 1px solid rgba(49, 51, 63, 0.2); border-radius: 10px; text-align: center;">
-        <h4>قائمة الخدمات</h4>
-        <p>كل مل يخص البشره والشعر </p>
-        <p style="color: #D4AF37;">(يرجى التواصل معنا لمعرفة العروض الحالية)</p>
-    </div>
-    ''', unsafe_allow_html=True)
+    st.info("سيتم إضافة قائمة الأسعار التفصيلية هنا قريباً")
     if st.button("العودة للرئيسية"):
         st.query_params.clear()
         st.rerun()
@@ -73,15 +67,13 @@ elif current_page == "reviews":
             if st.form_submit_button("نشر الرأي"):
                 if r_name and r_text:
                     handle_reviews("add", f"{r_text}|{r_name}")
-                    st.success("تم النشر!")
                     st.rerun()
     all_revs = handle_reviews()
     for rev in reversed(all_revs):
         if "|" in rev:
             text, name = rev.strip().split("|")
-            st.markdown(f'<div style="padding:15px; border:1px solid rgba(49,51,63,0.2); border-radius:10px; margin-bottom:10px;">"{text}"<br><small style="color:#D4AF37;">- {name}</small></div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="padding:15px; border:1px solid rgba(49, 51, 63, 0.2); border-radius:10px; margin-bottom:10px;">"{text}"<br><small style="color:#D4AF37;">- {name}</small></div>', unsafe_allow_html=True)
     
-    st.write("---")
     with st.expander("🔐 إدارة التعليقات"):
         pwd = st.text_input("أدخل كلمة المرور", type="password")
         if pwd == ADMIN_PASSWORD:
@@ -99,21 +91,19 @@ elif current_page == "gallery":
         st.write("---")
 
 else:
-    # الصفحة الرئيسية
+    # الصفحة الرئيسية - تم تغيير القلب لـ ✨
     st.image(logo_url, use_container_width=True)
     st.markdown("<h2 style='text-align: center; color: #D4AF37;'>✨اهلا بكم في بيوتي سنتر يارا ثروت✨</h2>", unsafe_allow_html=True)
-    
-    st.markdown('<a href="./?p=booking" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49,51,63,0.2); border-radius:8px; text-align:center; margin-bottom:12px;">📅 للحجز</div></a>', unsafe_allow_html=True)
-    st.markdown('<a href="./?p=prices" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49,51,63,0.2); border-radius:8px; text-align:center; margin-bottom:12px;">💰 قائمة الأسعار</div></a>', unsafe_allow_html=True)
-    st.markdown('<a href="./?p=reviews" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49,51,63,0.2); border-radius:8px; text-align:center; margin-bottom:12px;">⭐ رأي عملائنا</div></a>', unsafe_allow_html=True)
-    st.markdown('<a href="./?p=gallery" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49,51,63,0.2); border-radius:8px; text-align:center; margin-bottom:12px;">✨ صور لشغلنا</div></a>', unsafe_allow_html=True)
+    st.markdown('<a href="./?p=booking" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49, 51, 63, 0.2); border-radius:8px; text-align:center; margin-bottom:12px;">📅 للحجز</div></a>', unsafe_allow_html=True)
+    st.markdown('<a href="./?p=prices" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49, 51, 63, 0.2); border-radius:8px; text-align:center; margin-bottom:12px;">💰 قائمة الأسعار</div></a>', unsafe_allow_html=True)
+    st.markdown('<a href="./?p=reviews" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49, 51, 63, 0.2); border-radius: 8px; text-align: center; margin-bottom: 12px;">⭐ رأي عملائنا</div></a>', unsafe_allow_html=True)
+    st.markdown('<a href="./?p=gallery" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49, 51, 63, 0.2); border-radius: 8px; text-align: center; margin-bottom: 12px;">✨ صور لشغلنا</div></a>', unsafe_allow_html=True)
 
 # 5. القائمة الجانبية (Sidebar)
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown(f'<a href="tel:{phone_1}" style="text-decoration:none;"><div style="background-color:#007bff; color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:10px;">📞 اتصل بنا الآن</div></a>', unsafe_allow_html=True)
+    st.markdown(f'<a href="https://wa.me/?text={share_msg}" target="_blank" style="text-decoration:none;"><div style="background-color:#25D366; color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:10px;">🔗 إرسال الموقع لصديقتك</div></a>', unsafe_allow_html=True)
     st.markdown(f'<div style="padding:10px; border:1px solid rgba(49,51,63,0.1); border-radius:5px;">📱 {phone_1}<br>📱 {phone_2}</div>', unsafe_allow_html=True)
     st.markdown("---")
     st.markdown("### 📍 العنوان\nمنيه النصر - شارع البحر\nأعلى يونيكورن الدور الخامس")
-    st.write("---")
-    st.caption("شكراً لاختياركم بيوتي سنتر يارا ثروت 💕")
