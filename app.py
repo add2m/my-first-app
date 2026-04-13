@@ -4,18 +4,18 @@ import urllib.parse
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="بيوتي سنتر يارا ثروت", layout="centered")
 
-# 2. روابط البيانات
+# 2. الروابط الأساسية
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 whatsapp_num = "201055901090"
 
-# 3. نظام التنقل (Session State)
+# 3. إدارة التنقل بضغطة واحدة
 if 'page' not in st.session_state:
     st.session_state.page = 'home'
 
 def go_to(page_name):
     st.session_state.page = page_name
 
-# 4. الشريط الجانبي (ثابت فيه التليفون والعنوان فقط)
+# 4. القائمة الجانبية (تليفون وعنوان فقط)
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown("### 📞 للتواصل")
@@ -31,7 +31,7 @@ if st.session_state.page == 'home':
     st.markdown("<h2 style='text-align: center; color: #D4AF37;'>مرحباً بكم في بيوتي سنتر يارا ثروت</h2>", unsafe_allow_html=True)
     st.write("<p style='text-align: center;'>اختار القسم الذي تريده:</p>", unsafe_allow_html=True)
     
-    # أزرار الأقسام بضغطة واحدة
+    # أزرار موبايل كبيرة
     st.button("📅 حجز موعد", use_container_width=True, on_click=go_to, args=('booking',))
     st.button("💰 قائمة الأسعار", use_container_width=True, on_click=go_to, args=('prices',))
     st.button("✨ معرض الأعمال", use_container_width=True, on_click=go_to, args=('gallery',))
@@ -48,25 +48,8 @@ elif st.session_state.page == 'booking':
         
         if submit:
             if u_name and u_phone:
-                msg = f"حجز جديد:\nالاسم: {u_name}\nالسن: {u_age}\nالعنوان: {u_address}\nالهاتف: {u_phone}"
+                msg = f"حجز جديد من الموقع:\nالاسم: {u_name}\nالسن: {u_age}\nالعنوان: {u_address}\nالهاتف: {u_phone}"
                 encoded_msg = urllib.parse.quote(msg)
                 link = f"https://wa.me/{whatsapp_num}?text={encoded_msg}"
-                st.success("تمام! بياناتك جاهزة.")
-                st.markdown(f'<a href="{link}" target="_blank" style="background-color: #25D366; color: white; padding: 15px 25px; text-decoration: none; border-radius: 10px; font-weight: bold; display: block; text-align: center;">تأكيد الحجز عبر واتساب</a>', unsafe_allow_html=True)
-    
-    # زرار العودة للقائمة الرئيسية (جوه الصفحة من تحت)
-    st.write("---")
-    st.button("🏠 العودة للقائمة الرئيسية", use_container_width=True, on_click=go_to, args=('home',))
-
-# ج. صفحة الأسعار
-elif st.session_state.page == 'prices':
-    st.markdown("<h2 style='text-align: center;'>💰 قائمة الأسعار</h2>", unsafe_allow_html=True)
-    st.info("سيتم إضافة صور المنيو هنا قريباً...")
-    
-    # زرار العودة للقائمة الرئيسية (جوه الصفحة من تحت)
-    st.write("---")
-    st.button("🏠 العودة للقائمة الرئيسية", use_container_width=True, on_click=go_to, args=('home',))
-
-# د. صفحة المعرض
-elif st.session_state.page == 'gallery':
-    st.markdown("<h2 style='text-align: center;'>✨ معرض أعمالنا</h2>", unsafe_allow_
+                st.success("بياناتك جاهزة!")
+                st.markdown(f'<a href="{link}" target="_blank" style="background-color: #25D366; color: white; padding: 15px 25px
