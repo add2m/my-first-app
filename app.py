@@ -4,11 +4,10 @@ import urllib.parse
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️", layout="centered")
 
-# 2. البيانات والروابط
+# 2. البيانات والروابط الأساسية
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 whatsapp_num = "201055901090"
-# رابط اللوكيشن على خرائط جوجل
-map_location_url = "https://maps.google.com/?q=منية+النصر+شارع+البحر" 
+map_location_url = "https://maps.google.com/?q=31.1345,31.7225" # إحداثيات تقريبية لمنية النصر
 
 video_ids = [
     "1eC2Vhnj9ON69lKyMPWtrXENQiDA8QnBL",
@@ -42,25 +41,28 @@ elif current_page == "gallery":
         st.write("---")
 
 else:
-    # الصفحة الرئيسية
     st.image(logo_url, use_container_width=True)
     st.markdown("<h2 style='text-align: center; color: #D4AF37;'>❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️</h2>", unsafe_allow_html=True)
     
     st.markdown('<a href="./?p=booking" target="_blank" style="text-decoration: none; color: inherit;"><div style="padding: 12px; border: 1px solid rgba(49, 51, 63, 0.2); border-radius: 8px; text-align: center; margin-bottom: 12px;">📅 للحجز</div></a>', unsafe_allow_html=True)
     st.markdown('<a href="./?p=gallery" target="_blank" style="text-decoration: none; color: inherit;"><div style="padding: 12px; border: 1px solid rgba(49, 51, 63, 0.2); border-radius: 8px; text-align: center; margin-bottom: 12px;">✨ صور لشغلنا</div></a>', unsafe_allow_html=True)
 
-# 5. القائمة الجانبية (Sidebar) بدون العداد
+# 5. القائمة الجانبية (Sidebar) - تعديل العنوان والأرقام
 with st.sidebar:
     st.image(logo_url, width=150)
-    st.markdown("### 📞 للتواصل\n01055901090\n01055907095")
+    st.markdown("### 📞 أرقام التواصل")
+    st.success("📱 01055901090")
+    st.success("📱 01055907095")
+    
     st.write("---")
-    st.markdown("### 📍 العنوان\nمنيه النصر - شارع البحر\nأعلى يونيكورن الدور الخامس")
+    st.markdown("### 📍 العنوان بالتفصيل")
+    st.info("الدقهليه - منيه النصر - شارع البحر\n\n(أعلى يونيكورن - الدور الخامس)")
     
-    # زرار اللوكيشن
-    st.markdown(f'[📍 افتح اللوكيشن على الخريطة]({map_location_url})')
+    # زرار اللوكيشن بتصميم أوضح
+    st.markdown(f'<a href="{map_location_url}" target="_blank" style="background-color: #EA4335; color: white; padding: 10px; text-decoration: none; border-radius: 5px; display: block; text-align: center;">📍 افتح الموقع على الخريطة</a>', unsafe_allow_html=True)
     
-    # إطار الخريطة التفاعلية
-    map_html = '<iframe src="https://maps.google.com/maps?q=منية%20النصر%20شارع%20البحر&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="200" style="border:0; border-radius:10px;" allowfullscreen="" loading="lazy"></iframe>'
+    # إطار الخريطة
+    map_html = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3410.875225438!2d31.7225!3d31.1345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDA4JzA0LjIiTiAzMcKwNDMnMjEuMCJF!5e0!3m2!1sar!2seg!4v1620000000000!5m2!1sar!2seg" width="100%" height="200" style="border:0; border-radius:10px;" allowfullscreen="" loading="lazy"></iframe>'
     st.markdown(map_html, unsafe_allow_html=True)
     
     st.write("---")
