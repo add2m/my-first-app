@@ -27,15 +27,13 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# 3. قراءة "علامة الصفحة" من الرابط (URL Query Params)
-# دي اللي بتعرفنا إحنا في أي صفحة لما نفتح تاب جديد
+# 3. قراءة "علامة الصفحة" من الرابط
 query_params = st.query_params
 current_page = query_params.get("p", "home")
 
-# 4. محتوى الصفحات بناءً على الرابط
+# 4. محتوى الصفحات بناءً على الاختيار
 # ------------------------------
 
-# أ. صفحة الحجز
 if current_page == "booking":
     st.markdown("### 📅 بيانات الحجز")
     with st.form("booking_form"):
@@ -44,6 +42,16 @@ if current_page == "booking":
         u_address = st.text_input("العنوان")
         u_phone = st.text_input("رقم الهاتف")
         submit = st.form_submit_button("إرسال البيانات", use_container_width=True)
-        if submit and u_name and u_phone:
-            msg = urllib.parse.quote(f"حجز جديد:\nالاسم: {u_name}\nالسن: {u_age}\nالعنوان: {u_address}\nالهاتف: {u_phone}")
-            st.markdown(f'<a href="https://wa.me/{whatsapp_num}?text={msg}" target="_blank" class="nav-btn" style="background-
+        if submit:
+            if u_name and u_phone:
+                msg_text = f"حجز جديد:\nالاسم: {u_name}\nالسن: {u_age}\nالعنوان: {u_address}\nالهاتف: {u_phone}"
+                msg = urllib.parse.quote(msg_text)
+                st.markdown(f'<a href="https://wa.me/{whatsapp_num}?text={msg}" target="_blank" class="nav-btn" style="background-color: #25D366;">تأكيد عبر واتساب</a>', unsafe_allow_html=True)
+            else:
+                st.error("يرجى إدخال الاسم ورقم الهاتف")
+
+elif current_page == "prices":
+    st.markdown("### 💰 قائمة الأسعار")
+    st.info("قريباً سيتم عرض الأسعار هنا")
+
+elif current_
