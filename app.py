@@ -6,32 +6,33 @@ from datetime import datetime, timedelta
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="✨اهلا بكم في بيوتي سنتر يارا ثروت✨", layout="centered")
 
-# --- التنسيق الجمالي (CSS) ---
+# --- تنسيق الفريم الأبيض فقط (CSS) ---
 st.markdown("""
     <style>
-    /* الفريم الأبيض حوالين أزرار القائمة الرئيسية */
+    /* إضافة فريم أبيض خفيف وشيك حول أزرار القائمة الرئيسية */
     .stMarkdown div a div {
-        border: 2px solid #FFFFFF !important;
-        border-radius: 12px !important;
-        background-color: rgba(255, 255, 255, 0.05) !important;
-        padding: 15px !important;
+        border: 1px solid #FFFFFF !important;
+        border-radius: 10px !important;
+        padding: 12px !important;
+        margin-bottom: 12px !important;
         transition: 0.3s;
     }
+    
+    /* تأثير بسيط عند لمس الزرار */
     .stMarkdown div a div:hover {
         border-color: #D4AF37 !important;
-        background-color: rgba(212, 175, 55, 0.1) !important;
+        background-color: rgba(255, 255, 255, 0.05) !important;
     }
 
     /* تمييز أيقونة المنيو (الشرطتين) */
     [data-testid="stSidebarCollapseIcon"], [data-testid="sidebar-button"] svg {
         color: #D4AF37 !important;
         fill: #D4AF37 !important;
-        filter: drop-shadow(0 0 5px #D4AF37);
     }
     </style>
     """, unsafe_allow_html=True)
 
-# --- وظيفة حالة العمل ---
+# --- وظيفة حالة العمل (UTC+3) ---
 def get_business_status():
     now = datetime.utcnow() + timedelta(hours=3)
     current_hour = now.hour
@@ -42,7 +43,7 @@ def get_business_status():
 
 status_msg, bg_color, text_color = get_business_status()
 
-# --- وظيفة الآراء (Reviews Function) ---
+# --- وظيفة الآراء ---
 def handle_reviews(action="read", data=None):
     file_path = "reviews.txt"
     if not os.path.exists(file_path):
@@ -57,7 +58,7 @@ def handle_reviews(action="read", data=None):
             with open(file_path, "w", encoding="utf-8") as f: f.writelines(reviews)
     return reviews
 
-# 2. البيانات الأساسية
+# 2. البيانات الأساسية والروابط
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 whatsapp_num = "201055901090"
 phone_1 = "01055901090"
@@ -78,11 +79,11 @@ current_page = query_params.get("p", "home")
 if current_page == "booking":
     st.markdown("### 📅 بيانات الحجز")
     with st.form("booking_form"):
-        u_name = st.text_input("الاسم بالكامل")
+        u_name = st.text_input("الاسم")
         u_age = st.text_input("السن")
         u_phone = st.text_input("رقم الهاتف")
         u_address = st.text_input("العنوان")
-        if st.form_submit_button("إرسال البيانات وحجز موعد", use_container_width=True):
+        if st.form_submit_button("إرسال البيانات", use_container_width=True):
             if u_name and u_phone and u_age and u_address:
                 msg = urllib.parse.quote(f"حجز جديد:\nالاسم: {u_name}\nالسن: {u_age}\nالهاتف: {u_phone}\nالعنوان: {u_address}")
                 st.markdown(f'<a href="https://wa.me/{whatsapp_num}?text={msg}" target="_blank" style="background-color: #25D366; color: white; padding: 15px; text-decoration: none; border-radius: 10px; display: block; text-align: center; font-weight: bold;">تأكيد عبر واتساب ✅</a>', unsafe_allow_html=True)
@@ -134,9 +135,10 @@ else:
     
     menu = [("📅 للحجز الآن", "booking"), ("💰 قائمة الأسعار", "prices"), ("⭐ رأي عملائنا", "reviews"), ("✨ فيديوهات لشغلنا", "gallery")]
     for title, p in menu:
-        st.markdown(f'<a href="./?p={p}" target="_blank" style="text-decoration:none;color:inherit;"><div style="text-align:center; font-weight: bold; font-size: 18px;">{title}</div></a>', unsafe_allow_html=True)
+        # target="_blank" لفتح في صفحة جديدة
+        st.markdown(f'<a href="./?p={p}" target="_blank" style="text-decoration:none;color:inherit;"><div style="text-align:center; font-weight: bold;">{title}</div></a>', unsafe_allow_html=True)
 
-# 5. Sidebar
+# 5. القائمة الجانبية (Sidebar)
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown(f'<div style="background-color: {bg_color}; color: {text_color}; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid {text_color};">{status_msg}</div>', unsafe_allow_html=True)
