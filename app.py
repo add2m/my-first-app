@@ -101,7 +101,7 @@ elif current_page == "gallery":
 else:
     # الصفحة الرئيسية
     st.image(logo_url, use_container_width=True)
-    st.markdown("<h2 style='text-align: center; color: #D4AF37;'>❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #D4AF37;'>✨اهلا بكم في بيوتي سنتر يارا ثروت✨</h2>", unsafe_allow_html=True)
     
     st.markdown('<a href="./?p=booking" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49,51,63,0.2); border-radius:8px; text-align:center; margin-bottom:12px;">📅 للحجز</div></a>', unsafe_allow_html=True)
     st.markdown('<a href="./?p=prices" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49,51,63,0.2); border-radius:8px; text-align:center; margin-bottom:12px;">💰 قائمة الأسعار</div></a>', unsafe_allow_html=True)
