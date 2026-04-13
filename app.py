@@ -6,39 +6,16 @@ from datetime import datetime, timedelta
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="✨اهلا بكم في بيوتي سنتر يارا ثروت✨", layout="centered")
 
-# --- كود متطور لتمييز "الشرطتين" (أيقونة المنيو) ---
-st.markdown("""
-    <style>
-    /* 1. استهداف أيقونة السهمين وتغيير لونها وجعلها تنبض */
-    button[data-testid="sidebar-button"] svg, 
-    button[data-testid="baseButton-headerNoPadding"] svg,
-    .st-emotion-cache-6q9sum svg {
-        fill: #D4AF37 !important;
-        color: #D4AF37 !important;
-        filter: drop-shadow(0 0 5px #D4AF37);
-        animation: pulse-icon 1.5s infinite;
-    }
-
-    @keyframes pulse-icon {
-        0% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.3); opacity: 0.7; }
-        100% { transform: scale(1); opacity: 1; }
-    }
-
-    /* 2. إضافة خلفية خفيفة خلف الأيقونة لتظهر بوضوح */
-    button[data-testid="sidebar-button"] {
-        background-color: rgba(212, 175, 55, 0.1) !important;
-        border-radius: 50% !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
 # --- وظيفة حساب حالة العمل (توقيت مصر UTC+3) ---
 def get_business_status():
+    # توقيت مصر حالياً هو UTC+3
     now = datetime.utcnow() + timedelta(hours=3)
     current_hour = now.hour
-    start_hour = 13
+    
+    # المواعيد من 11 صباحاً حتى 10 مساءً
+    start_hour = 11
     end_hour = 22
+    
     if start_hour <= current_hour < end_hour:
         return "🟢 نحن متاحون الآن.. أهلاً بكِ", "rgba(40, 167, 69, 0.1)", "#28a745"
     else:
@@ -67,8 +44,10 @@ whatsapp_num = "201055901090"
 phone_1 = "01055901090"
 phone_2 = "01055907095"
 ADMIN_PASSWORD = "9811" 
+
 site_url = "https://yara-tharwat.streamlit.app" 
 share_msg = urllib.parse.quote(f"بصي يا جميلة، شوفت بيوتي سنتر يارا ثروت وشغله عجبني جداً، شوفي موقعهم من هنا: {site_url}")
+
 video_ids = ["1eC2Vhnj9ON69lKyMPWtrXENQiDA8QnBL", "1w1PWV3eQaXAz1Cdz5WBJrtX3lDSi4hzi", 
              "1SuxPy8-LsRE4iizxcR531sTXPeZdY-n0", "1wlMl0Mi7COStjKh1d8B9JxWqj7Cf-fD1", 
              "1mGeV2CQrYyJCwZkSGBrB2rhMqta8BlOU"]
@@ -107,6 +86,16 @@ elif current_page == "reviews":
         if "|" in rev:
             t, n = rev.strip().split("|")
             st.markdown(f'<div style="padding:15px; border:1px solid rgba(49,51,63,0.2); border-radius:10px; margin-bottom:10px;">"{t}"<br><small style="color:#D4AF37;">- {n}</small></div>', unsafe_allow_html=True)
+    
+    with st.expander("🔐 إدارة"):
+        pwd = st.text_input("الباسورد", type="password")
+        if pwd == ADMIN_PASSWORD:
+            for i, rev in enumerate(all_revs):
+                if "|" in rev:
+                    content, sender = rev.strip().split("|")
+                    if st.button(f"🗑️ حذف {sender}", key=f"del_{i}"):
+                        handle_reviews("delete_one", i)
+                        st.rerun()
 
 elif current_page == "gallery":
     st.markdown("### ✨ فيديوهات من شغلنا")
@@ -119,7 +108,7 @@ else:
     st.image(logo_url, use_container_width=True)
     st.markdown("<h2 style='text-align: center; color: #D4AF37;'>✨اهلا بكم في بيوتي سنتر يارا ثروت✨</h2>", unsafe_allow_html=True)
     for title, p in [("📅 للحجز", "booking"), ("💰 قائمة الأسعار", "prices"), ("⭐ رأي عملائنا", "reviews"), ("✨ صور لشغلنا", "gallery")]:
-        st.markdown(f'<a href="./?p={p}" target="_self" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49, 51, 63, 0.2); border-radius:8px; text-align:center; margin-bottom:12px; font-weight: bold;">{title}</div></a>', unsafe_allow_html=True)
+        st.markdown(f'<a href="./?p={p}" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:12px; border:1px solid rgba(49, 51, 63, 0.2); border-radius:8px; text-align:center; margin-bottom:12px;">{title}</div></a>', unsafe_allow_html=True)
 
 # 5. Sidebar
 with st.sidebar:
@@ -127,6 +116,6 @@ with st.sidebar:
     st.markdown(f'<div style="background-color: {bg_color}; color: {text_color}; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid {text_color};">{status_msg}</div>', unsafe_allow_html=True)
     st.markdown(f'<a href="tel:{phone_1}" style="text-decoration:none;"><div style="background-color:#007bff; color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:10px;">📞 اتصل بنا الآن</div></a>', unsafe_allow_html=True)
     st.markdown(f'<a href="https://wa.me/?text={share_msg}" target="_blank" style="text-decoration:none;"><div style="background-color:#25D366; color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:10px;">🔗 إرسال الموقع لصديقتك</div></a>', unsafe_allow_html=True)
-    st.markdown(f'<div style="padding:10px; border:1px solid rgba(49,51,63,0.1); border-radius:5px; text-align: center;">📱 {phone_1}<br>📱 {phone_2}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="padding:10px; border:1px solid rgba(49,51,63,0.1); border-radius:5px;">📱 {phone_1}<br>📱 {phone_2}</div>', unsafe_allow_html=True)
     st.markdown("---")
     st.markdown("### 📍 العنوان\nمنيه النصر - شارع البحر\nأعلى يونيكورن الدور الخامس")
