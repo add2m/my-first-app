@@ -4,11 +4,11 @@ import urllib.parse
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️", layout="centered")
 
-# 2. الروابط الأساسية
+# 2. الروابط والبيانات الأساسية
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 whatsapp_num = "201055901090"
 
-# قائمة معرفات الفيديوهات (IDs)
+# قائمة معرفات فيديوهات درايف (IDs)
 video_ids = [
     "1eC2Vhnj9ON69lKyMPWtrXENQiDA8QnBL",
     "1w1PWV3eQaXAz1Cdz5WBJrtX3lDSi4hzi",
@@ -17,11 +17,13 @@ video_ids = [
     "1mGeV2CQrYyJCwZkSGBrB2rhMqta8BlOU"
 ]
 
-# 3. إدارة التنقل
+# 3. إدارة التنقل عبر الرابط
 query_params = st.query_params
 current_page = query_params.get("p", "home")
 
 # 4. محتوى الصفحات
+# ------------------------------
+
 if current_page == "booking":
     st.markdown("### 📅 بيانات الحجز")
     with st.form("booking_form"):
@@ -42,29 +44,26 @@ elif current_page == "prices":
 elif current_page == "gallery":
     st.markdown("### ✨ فيديوهات من شغلنا")
     for vid in video_ids:
-        # رابط تشغيل مباشر متوافق مع المتصفحات
-        video_url = f"https://drive.google.com/uc?id={vid}"
-        st.video(video_url)
+        # استخدام iframe لضمان تشغيل الفيديو من درايف
+        video_embed_url = f"https://drive.google.com/file/d/{vid}/preview"
+        st.components.v1.iframe(video_embed_url, height=480)
         st.write("---")
 
 else:
-    # الصفحة الرئيسية
+    # الصفحة الرئيسية (أزرار شفافة)
     st.image(logo_url, use_container_width=True)
     st.markdown("<h2 style='text-align: center; color: #D4AF37;'>❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️</h2>", unsafe_allow_html=True)
     
-    # الأزرار الشفافة تفتح في تابات جديدة
     st.markdown('<a href="./?p=booking" target="_blank" style="text-decoration: none; color: inherit;"><div style="padding: 12px; border: 1px solid rgba(49, 51, 63, 0.2); border-radius: 8px; text-align: center; margin-bottom: 12px;">📅 للحجز</div></a>', unsafe_allow_html=True)
     st.markdown('<a href="./?p=prices" target="_blank" style="text-decoration: none; color: inherit;"><div style="padding: 12px; border: 1px solid rgba(49, 51, 63, 0.2); border-radius: 8px; text-align: center; margin-bottom: 12px;">💰 قائمة الأسعار</div></a>', unsafe_allow_html=True)
     st.markdown('<a href="./?p=gallery" target="_blank" style="text-decoration: none; color: inherit;"><div style="padding: 12px; border: 1px solid rgba(49, 51, 63, 0.2); border-radius: 8px; text-align: center; margin-bottom: 12px;">✨ صور لشغلنا</div></a>', unsafe_allow_html=True)
 
-# القائمة الجانبية (رجعت لك فيها الأرقام والعنوان بالتفصيل)
+# 5. القائمة الجانبية (Sidebar) مع البيانات كاملة
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown("### 📞 للتواصل")
-    st.write("01055901090")
-    st.write("01055907095")
+    st.markdown("01055901090  \n01055907095")
     st.markdown("### 📍 العنوان")
-    st.write("الدقهليه - منيه النصر - شارع البحر")
-    st.write("مقابل استار مول - اعلى يونيكورن الدور الخامس")
+    st.markdown("الدقهليه - منيه النصر - شارع البحر  \nمقابل استار مول - اعلى يونيكورن الدور الخامس")
     st.write("---")
     st.caption("شكراً لاختياركم مركز يارا ثروت 💕")
