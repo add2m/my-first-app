@@ -4,11 +4,11 @@ import urllib.parse
 # 1. إعدادات الصفحة للموبايل
 st.set_page_config(page_title="بيوتي سنتر يارا ثروت", layout="centered")
 
-# 2. روابط البيانات
+# 2. الروابط الأساسية
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 whatsapp_num = "201055901090"
 
-# 3. نظام التنقل التلقائي (عشان الصفحة ما تظهرش فاضية)
+# 3. إدارة التنقل
 if 'page' not in st.session_state:
     st.session_state.page = 'home'
 
@@ -33,30 +33,38 @@ if st.session_state.page == 'home':
     st.button("💰 قائمة الأسعار", use_container_width=True, on_click=go_to, args=('prices',))
     st.button("✨ معرض الأعمال", use_container_width=True, on_click=go_to, args=('gallery',))
 
-# ب. صفحة الحجز
+# ب. صفحة الحجز (تم إضافة السن والعنوان)
 elif st.session_state.page == 'booking':
     st.markdown("### 📅 بيانات الحجز")
     with st.form("booking_form"):
         u_name = st.text_input("الاسم")
+        u_age = st.text_input("السن")
+        u_address = st.text_input("العنوان")
         u_phone = st.text_input("رقم الهاتف")
         submit = st.form_submit_button("إرسال البيانات", use_container_width=True)
-        if submit and u_name and u_phone:
-            msg = urllib.parse.quote(f"حجز جديد:\nالاسم: {u_name}\nالهاتف: {u_phone}")
-            st.markdown(f'<a href="https://wa.me/{whatsapp_num}?text={msg}" target="_blank" style="background-color: #25D366; color: white; padding: 15px; text-decoration: none; border-radius: 10px; display: block; text-align: center;">تأكيد عبر واتساب</a>', unsafe_allow_html=True)
+        
+        if submit:
+            if u_name and u_phone:
+                # تجهيز الرسالة لواتساب
+                msg_text = f"حجز جديد:\nالاسم: {u_name}\nالسن: {u_age}\nالعنوان: {u_address}\nالهاتف: {u_phone}"
+                msg = urllib.parse.quote(msg_text)
+                st.markdown(f'<a href="https://wa.me/{whatsapp_num}?text={msg}" target="_blank" style="background-color: #25D366; color: white; padding: 15px; text-decoration: none; border-radius: 10px; display: block; text-align: center;">تأكيد عبر واتساب</a>', unsafe_allow_html=True)
+            else:
+                st.error("يرجى إدخال الاسم ورقم الهاتف على الأقل")
     
     st.write("---")
     st.button("🏠 العودة للرئيسية", use_container_width=True, on_click=go_to, args=('home',))
 
 # ج. صفحة الأسعار
 elif st.session_state.page == 'prices':
-    st.markdown("### 💰 الأسعار")
-    st.info("سيتم إضافة الصور قريباً")
+    st.markdown("### 💰 قائمة الأسعار")
+    st.info("قريباً سيتم عرض الأسعار هنا")
     st.button("🏠 العودة للرئيسية", use_container_width=True, on_click=go_to, args=('home',))
 
 # د. صفحة المعرض
 elif st.session_state.page == 'gallery':
-    st.markdown("### ✨ أعمالنا")
-    st.success("سيتم إضافة الصور قريباً")
+    st.markdown("### ✨ معرض الأعمال")
+    st.success("قريباً سيتم عرض الصور هنا")
     st.button("🏠 العودة للرئيسية", use_container_width=True, on_click=go_to, args=('home',))
 
 # تذييل الصفحة
