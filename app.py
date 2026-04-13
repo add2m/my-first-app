@@ -42,6 +42,21 @@ def get_business_status():
 
 status_msg, bg_color, text_color = get_business_status()
 
+# --- وظيفة الآراء (Reviews Function) ---
+def handle_reviews(action="read", data=None):
+    file_path = "reviews.txt"
+    if not os.path.exists(file_path):
+        with open(file_path, "w", encoding="utf-8") as f: f.write("شغل ممتاز وتسلم إيديكم!|سارة")
+    with open(file_path, "r", encoding="utf-8") as f:
+        reviews = f.readlines()
+    if action == "add" and data:
+        with open(file_path, "a", encoding="utf-8") as f: f.write(f"\n{data}")
+    elif action == "delete_one" and data is not None:
+        if 0 <= data < len(reviews):
+            reviews.pop(data)
+            with open(file_path, "w", encoding="utf-8") as f: f.writelines(reviews)
+    return reviews
+
 # 2. البيانات الأساسية
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 whatsapp_num = "201055901090"
@@ -78,6 +93,33 @@ elif current_page == "prices":
     st.info("سيتم إضافة قائمة الأسعار قريباً")
     if st.button("العودة للرئيسية"): st.query_params.clear(); st.rerun()
 
+elif current_page == "reviews":
+    st.markdown("### ⭐ رأي عملائنا")
+    with st.expander("اضف رأيك هنا"):
+        with st.form("review_form"):
+            r_name = st.text_input("الاسم")
+            r_text = st.text_area("رأيك")
+            if st.form_submit_button("نشر"):
+                if r_name and r_text:
+                    handle_reviews("add", f"{r_text}|{r_name}")
+                    st.rerun()
+    all_revs = handle_reviews()
+    for rev in reversed(all_revs):
+        if "|" in rev:
+            t, n = rev.strip().split("|")
+            st.markdown(f'<div style="padding:15px; border:1px solid rgba(49,51,63,0.2); border-radius:10px; margin-bottom:10px;">"{t}"<br><small style="color:#D4AF37;">- {n}</small></div>', unsafe_allow_html=True)
+    
+    with st.expander("🔐 إدارة"):
+        pwd = st.text_input("الباسورد", type="password")
+        if pwd == ADMIN_PASSWORD:
+            for i, rev in enumerate(all_revs):
+                if "|" in rev:
+                    content, sender = rev.strip().split("|")
+                    if st.button(f"🗑️ حذف {sender}", key=f"del_{i}"):
+                        handle_reviews("delete_one", i)
+                        st.rerun()
+    if st.button("العودة للرئيسية"): st.query_params.clear(); st.rerun()
+
 elif current_page == "gallery":
     st.markdown("### ✨ فيديوهات من شغلنا")
     for vid in video_ids:
@@ -94,12 +136,11 @@ else:
     for title, p in menu:
         st.markdown(f'<a href="./?p={p}" target="_blank" style="text-decoration:none;color:inherit;"><div style="text-align:center; font-weight: bold; font-size: 18px;">{title}</div></a>', unsafe_allow_html=True)
 
-# 5. Sidebar (أهم جزء رجعناه)
+# 5. Sidebar
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown(f'<div style="background-color: {bg_color}; color: {text_color}; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid {text_color};">{status_msg}</div>', unsafe_allow_html=True)
     
-    # أزرار التواصل (اتصال ومشاركة)
     st.markdown(f'<a href="tel:{phone_1}" style="text-decoration:none;"><div style="background-color:#007bff; color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:10px; font-weight: bold;">📞 اتصل بنا الآن</div></a>', unsafe_allow_html=True)
     st.markdown(f'<a href="https://wa.me/?text={share_msg}" target="_blank" style="text-decoration:none;"><div style="background-color:#25D366; color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:10px; font-weight: bold;">🔗 إرسال الموقع لصديقتك</div></a>', unsafe_allow_html=True)
     
