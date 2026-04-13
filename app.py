@@ -2,7 +2,7 @@ import streamlit as st
 import urllib.parse
 
 # 1. إعدادات الصفحة للموبايل
-st.set_page_config(page_title="بيوتي سنتر يارا ثروت", layout="centered")
+st.set_page_config(page_title="❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️", layout="centered")
 
 # 2. الروابط الأساسية
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
@@ -31,7 +31,7 @@ if st.session_state.page == 'home':
     # أزرار موبايل كبيرة
     st.button("📅 حجز موعد", use_container_width=True, on_click=go_to, args=('booking',))
     st.button("💰 قائمة الأسعار", use_container_width=True, on_click=go_to, args=('prices',))
-    st.button("✨ معرض الأعمال", use_container_width=True, on_click=go_to, args=('gallery',))
+    st.button("✨ صور لشغلنا", use_container_width=True, on_click=go_to, args=('gallery',))
 
 # ب. صفحة الحجز (تم إضافة السن والعنوان)
 elif st.session_state.page == 'booking':
@@ -69,4 +69,4 @@ elif st.session_state.page == 'gallery':
 
 # تذييل الصفحة
 st.write("---")
-st.caption("مركز يارا ثروت - منيه النصر")
+st.caption("شكرا لاختياركم بيوتي سنتر يارا ثروت💕")
