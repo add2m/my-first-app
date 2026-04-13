@@ -3,7 +3,7 @@ import urllib.parse
 import os
 
 # 1. إعدادات الصفحة
-st.set_page_config(page_title="❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️", layout="centered")
+st.set_page_config(page_title="✨اهلا بكم في بيوتي سنتر يارا ثروت✨", layout="centered")
 
 # --- وظيفة الآراء (حذف تعليق محدد) ---
 def handle_reviews(action="read", data=None):
