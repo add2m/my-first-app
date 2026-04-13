@@ -1,21 +1,16 @@
 import streamlit as st
 import urllib.parse
 
-# 1. إعدادات الصفحة
+
 st.set_page_config(page_title="❤️اهلا بكم في بيوتي سنتر يارا ثروت❤️", layout="centered")
 
-# 2. الروابط الأساسية
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 whatsapp_num = "201055901090"
 
-# 3. قراءة "علامة الصفحة" من الرابط (Query Params)
 query_params = st.query_params
 current_page = query_params.get("p", "home")
 
-# 4. محتوى الصفحات بناءً على الاختيار
-# ------------------------------
 
-# أ. صفحة الحجز (التي تفتح في تاب جديد)
 if current_page == "booking":
     st.markdown("### 📅 بيانات الحجز")
     with st.form("booking_form"):
@@ -35,7 +30,7 @@ elif current_page == "prices":
 
 # ج. صفحة المعرض
 elif current_page == "gallery":
-    st.markdown("### ✨ معرض الأعمال")
+    st.markdown("### ✨ صور لشغلنا")
     st.success("قريباً سيتم عرض الصور هنا")
 
 # د. الصفحة الرئيسية (الشكل القديم بدون اللون الأصفر)
@@ -53,5 +48,5 @@ st.write("---")
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown("### 📞 للتواصل\n01055901090\n\n01055907095")
-    st.markdown("### 📍 العنوان\nالدقهليه - منيه النصر - شارع البحر\nمقابل استار مول - الدور الخامس")
+    st.markdown("### 📍 العنوان\nمنيه النصر - الدقهلية\n\nشارع البحر - مقابل ستار مول\n\nأعلى يونيكورن - الدور الخامس")
     st.caption("شكرا لاختياركم بيوتي سنتر يارا ثروت💕")
