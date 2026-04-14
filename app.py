@@ -97,6 +97,7 @@ current_page = query_params.get("p", "home")
 
 # 4. محتوى الصفحات
 if current_page == "booking":
+    st.write("🔥 أنا بدأت أعدل هنا يا بطل") # السطر ده لو ظهر يبقى الكود شغال
     st.markdown("### 📅 بيانات الحجز")
     with st.form("booking_form"):
         u_name = st.text_input("الاسم بالكامل")
@@ -104,7 +105,8 @@ if current_page == "booking":
         u_age = st.text_input("السن")
         u_address = st.text_input("العنوان")
         
-        submit_button = st.form_submit_button("إرسال البيانات", use_container_width=True)
+        if st.form_submit_button("إرسال البيانات"):
+             st.success("تم الضغط!")
         
         if submit_button:
             if u_name and u_phone:
