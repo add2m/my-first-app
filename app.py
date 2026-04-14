@@ -1,242 +1,242 @@
 import streamlit as st
 import urllib.parse
 import os
-import base64
+import time
 from datetime import datetime, timedelta
 
-# ==========================================
-# 1. إعدادات الصفحة والتهيئة (Page Config)
-# ==========================================
+# ============================================================
+# 1. إعدادات الصفحة المتقدمة (Streamlit Configuration)
+# ============================================================
+# تم إعداد الصفحة لتناسب العرض على الموبايل والكمبيوتر بشكل احترافي
 st.set_page_config(
     page_title="✨ بيوتي سنتر يارا ثروت ✨",
     page_icon="✨",
     layout="centered",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
-# ==========================================
-# 2. كود الـ CSS المتقدم (Professional Styling)
-# ==========================================
-# تم دمج الخلفية الغامقة، المقص المتحرك، والتنسيقات الأصلية هنا
+# ============================================================
+# 2. كود الـ CSS الاحترافي (Professional Styling)
+# ============================================================
+# تم نقل السايدبار لليمين، وتغميق الخلفية، وتعديل المقص ليكون في الجهة المقابلة
 st.markdown("""
 <style>
-    /* الخطوط والتنسيق العام */
+    /* تحسين الخطوط والتنسيق العام */
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
     
-    html, body, [data-testid="stSidebar"] {
+    html, body, [data-testid="stSidebar"], .stMarkdown {
         font-family: 'Cairo', sans-serif;
         direction: rtl;
         text-align: right;
     }
 
-    /* الخلفية الغامقة الملكية (Dark Royal) */
+    /* نقل السايدبار للجهة اليمنى (تعديل الطلب الأول) */
+    [data-testid="stSidebar"] {
+        position: fixed;
+        right: 0 !important;
+        left: auto !important;
+        background-color: #0f0f0f !important;
+        border-right: 2px solid #D4AF37;
+        border-left: none !important;
+        z-index: 100;
+    }
+    
+    /* ضبط محتوى السايدبار ليدعم العربية من اليمين */
+    section[data-testid="stSidebar"] > div {
+        direction: rtl;
+    }
+
+    /* الخلفية الغامقة الملكية العميقة */
     .stApp {
-        background: #0a0a0a;
+        background: #050505;
         background-image: 
-            radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.15) 0, transparent 50%), 
-            radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.05) 0, transparent 50%),
-            linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
+            radial-gradient(at 0% 100%, rgba(212, 175, 55, 0.1) 0, transparent 50%), 
+            linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
         background-attachment: fixed;
         color: #ffffff !important;
     }
 
-    /* أنيميشن المقص الذهبي (ملفت جداً) */
-    @keyframes scissors-magic {
-        0% { transform: rotate(0deg) scale(1) translate(0, 0); opacity: 0.2; }
-        50% { transform: rotate(20deg) scale(1.1) translate(-10px, 10px); opacity: 0.4; }
-        100% { transform: rotate(0deg) scale(1) translate(0, 0); opacity: 0.2; }
+    /* تأثير المقص الذهبي المتحرك (جهة اليسار الآن) */
+    @keyframes scissors-swing {
+        0% { transform: rotate(0deg) scale(1); opacity: 0.2; }
+        50% { transform: rotate(-20deg) scale(1.15); opacity: 0.4; }
+        100% { transform: rotate(0deg) scale(1); opacity: 0.2; }
     }
 
-    .scissors-container {
+    .scissors-art {
         position: fixed;
-        top: 15%;
-        right: 10%;
-        width: 280px;
-        height: 280px;
+        bottom: 10%;
+        left: 5%; 
+        width: 300px;
+        height: 300px;
         z-index: 0;
         pointer-events: none;
-        animation: scissors-magic 7s ease-in-out infinite;
+        animation: scissors-swing 10s ease-in-out infinite;
     }
 
-    /* تنسيق أزرار الصفحة الرئيسية (مربعات شفافة أصلية) */
-    .nav-card {
-        border: 1px solid rgba(212, 175, 55, 0.4) !important;
-        background: rgba(255, 255, 255, 0.03) !important;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+    /* تنسيق الأزرار لتفتح في تاب جديد (الطلب الجديد) */
+    .nav-button {
+        border: 1px solid #D4AF37 !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(10px);
         border-radius: 15px;
-        padding: 20px;
+        padding: 22px;
         text-align: center;
         margin-bottom: 15px;
-        transition: all 0.3s ease;
-        cursor: pointer;
+        transition: all 0.4s ease;
         text-decoration: none !important;
         display: block;
-        color: white !important;
-    }
-
-    .nav-card:hover {
-        background: rgba(212, 175, 55, 0.1) !important;
-        transform: translateY(-3px);
-        border-color: #D4AF37 !important;
-    }
-
-    /* تنسيق السايدبار */
-    [data-testid="stSidebar"] {
-        background-color: #111111 !important;
-        border-left: 1px solid #D4AF37;
-    }
-
-    /* تحسين العناوين */
-    h1, h2, h3 {
         color: #D4AF37 !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        font-size: 1.2rem;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
-    /* إخفاء عناصر Streamlit الافتراضية للجمال */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
+    .nav-button:hover {
+        background: #D4AF37 !important;
+        color: #000 !important;
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    }
+
+    /* تحسين شكل المدخلات (Input Fields) وإلغاء الفواصل الزيادة */
+    .stTextInput > div > div > input, .stTextArea > div > div > textarea {
+        background-color: rgba(255,255,255,0.05) !important;
+        color: white !important;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
+        border-radius: 8px !important;
+    }
+
+    /* إخفاء عناصر Streamlit لزيادة الاحترافية */
+    #MainMenu, footer, header { visibility: hidden; }
 </style>
 
-<div class="scissors-container">
+<div class="scissors-art">
     <svg viewBox="0 0 512 512" fill="#D4AF37" xmlns="http://www.w3.org/2000/svg">
         <path d="M490.5 35.8c-18.7-18.7-49.1-18.7-67.9 0L256 202.5 89.4 35.8c-18.7-18.7-49.1-18.7-67.9 0-18.7 18.7-18.7 49.1 0 67.9L188.2 270.3l-142.1 142c-29.4 29.4-29.4 77 0 106.4 29.4 29.4 77 29.4 106.4 0l103.5-103.5 103.5 103.5c29.4 29.4 77 29.4 106.4 0 29.4-29.4 29.4-77 0-106.4l-142.1-142 166.7-166.6c18.7-18.8 18.7-49.2 0-67.9zM152.7 465.1c-10.6 10.6-27.7 10.6-38.3 0s-10.6-27.7 0-38.3l103.5-103.5 38.3 38.3-103.5 103.5zm244-38.3c10.6 10.6 10.6 27.7 0 38.3s-27.7 10.6-38.3 0l-103.5-103.5 38.3-38.3 103.5 103.5z"/>
     </svg>
 </div>
 """, unsafe_allow_html=True)
 
-# ==========================================
-# 3. الثوابت والبيانات (Constants & Data)
-# ==========================================
-LOGO_URL = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
-WHATSAPP_NUM = "201055901090"
-PHONE_1 = "01055901090"
-PHONE_2 = "01055907095"
-LOCATION_URL = "https://maps.google.com/?q=31.1895,31.7214" # إحداثيات منية النصر التقريبية
-ADMIN_PASS = "9811"
+# ============================================================
+# 3. الثوابت والبيانات (System Constants)
+# ============================================================
+LOGO_IMG = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
+WA_NUMBER = "201055901090"
+PHONES = ["01055901090", "01055907095"]
+MAP_LINK = "https://maps.google.com/?q=Minyat+al-Nasr"
+# العنوان التفصيلي كما هو مطلوب
+FULL_ADDRESS = "الدقهلية - منية النصر - شارع البحر - أمام ستار مول - أعلى يونيكورن - الدور الخامس"
 
-# ==========================================
-# 4. الوظائف المساعدة (Helper Functions)
-# ==========================================
-def check_status():
-    """حساب حالة العمل بناءً على توقيت مصر (UTC+3)"""
-    egypt_time = datetime.utcnow() + timedelta(hours=3)
-    current_hour = egypt_time.hour
-    if 13 <= current_hour < 22: # من 1 ظهراً لـ 10 مساءً
-        return "🟢 السنتر متاح الآن.. أهلاً بكِ", "rgba(40, 167, 69, 0.2)", "#28a745"
-    return "🔴 السنتر مغلق حالياً", "rgba(220, 53, 69, 0.2)", "#dc3545"
+# ============================================================
+# 4. وظائف النظام (System Functions)
+# ============================================================
+def get_current_status():
+    """تحديد حالة العمل بناءً على توقيت القاهرة (UTC+3)"""
+    now = datetime.utcnow() + timedelta(hours=3)
+    if 13 <= now.hour < 22: # من 1 ظهراً لـ 10 مساءً
+        return "🟢 نتشرف باستقبالكم الآن", "#28a745"
+    return "🔴 السنتر مغلق حالياً", "#dc3545"
 
-def save_review(review_text, reviewer_name):
-    """حفظ المراجعات في ملف نصي"""
-    with open("reviews.txt", "a", encoding="utf-8") as f:
-        f.write(f"{review_text}|{reviewer_name}\n")
+def generate_wa_link(msg):
+    """توليد رابط واتساب يعمل في نافذة جديدة"""
+    return f"https://wa.me/{WA_NUMBER}?text={urllib.parse.quote(msg)}"
 
-def load_reviews():
-    """تحميل المراجعات من الملف"""
-    if not os.path.exists("reviews.txt"):
-        return []
-    with open("reviews.txt", "r", encoding="utf-8") as f:
-        return f.readlines()
+# ============================================================
+# 5. السايدبار - الجهة اليمنى (Sidebar - Right Side)
+# ============================================================
+with st.sidebar:
+    st.image(LOGO_IMG, use_container_width=True)
+    
+    # عرض حالة العمل بشكل شيك
+    status_text, status_color = get_current_status()
+    st.markdown(f"""
+        <div style="background:rgba(212,175,55,0.1); color:{status_color}; padding:12px; 
+        border-radius:10px; text-align:center; font-weight:bold; border:1px solid {status_color};">
+            {status_text}
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.write("---")
+    
+    # أزرار الاتصال واللوكيشن المباشرة (تفتح في تاب جديد)
+    st.markdown(f'<a href="tel:{PHONES[0]}" target="_blank" style="text-decoration:none;"><div style="background:#007bff; color:white; padding:12px; border-radius:10px; text-align:center; margin-bottom:10px; font-weight:bold;">📞 اتصال مباشر</div></a>', unsafe_allow_html=True)
+    st.markdown(f'<a href="{MAP_LINK}" target="_blank" style="text-decoration:none;"><div style="background:#6c757d; color:white; padding:12px; border-radius:10px; text-align:center; margin-bottom:10px; font-weight:bold;">📍 عرض الموقع على الخريطة</div></a>', unsafe_allow_html=True)
+    
+    # بيانات التواصل التفصيلية
+    st.markdown(f"""
+        <div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; background:rgba(255,255,255,0.03);">
+            <p style="margin:0; font-size:15px; color:#D4AF37;"><b>📱 أرقامنا:</b></p>
+            <p style="margin:0; font-size:14px;">{PHONES[0]}</p>
+            <p style="margin:0; font-size:14px;">{PHONES[1]}</p>
+            <hr style="border-color:rgba(212,175,55,0.1);">
+            <p style="margin:0; font-size:13px; line-height:1.6;"><b>📍 العنوان:</b><br>{FULL_ADDRESS}</p>
+        </div>
+    """, unsafe_allow_html=True)
 
-# ==========================================
-# 5. إدارة التنقل (Navigation Logic)
-# ==========================================
-query_params = st.query_params
-page = query_params.get("p", "home")
-
-# ==========================================
-# 6. محتوى الصفحات (Page Content)
-# ==========================================
+# ============================================================
+# 6. إدارة الصفحات والمحتوى (Navigation & Content)
+# ============================================================
+params = st.query_params
+current_p = params.get("p", "home")
 
 # --- الصفحة الرئيسية ---
-if page == "home":
-    st.image(LOGO_URL, use_container_width=True)
-    st.markdown("<h2 style='text-align: center;'>✨اهلا بكم في بيوتي سنتر يارا ثروت✨</h2>", unsafe_allow_html=True)
+if current_p == "home":
+    # إضافة شعار كبير في المنتصف
+    st.image(LOGO_IMG, use_container_width=True)
+    st.markdown("<h1 style='text-align: center; font-size: 2.2rem;'>✨ Yara Tharwat Beauty Center ✨</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #D4AF37;'>نعتني بجمالكِ بأحدث التقنيات وأفضل الأيادي</p>", unsafe_allow_html=True)
     
-    # شبكة الأزرار الاحترافية
-    menu_items = [
-        ("📆 للحجز والاستفسار", "booking"),
-        ("💵 قائمة الأسعار", "prices"),
-        ("🌟 رأي عملائنا", "reviews"),
-        ("✨ صور لشغلنا", "gallery")
+    # قائمة الأزرار الرئيسية (كلها تفتح في صفحات جديدة بذكاء)
+    main_menu = [
+        ("📅 احجزي موعدك الآن", "booking"),
+        ("💰 قائمة الأسعار والعروض", "prices"),
+        ("📸 معرض أعمالنا", "gallery"),
+        ("⭐ آراء الجميلات", "reviews")
     ]
     
-    for label, target in menu_items:
-        st.markdown(f'<a href="./?p={target}" target="_self" class="nav-card"><div>{label}</div></a>', unsafe_allow_html=True)
+    st.write("<br>", unsafe_allow_html=True)
+    for title, link_key in main_menu:
+        # استخدام target="_blank" للفتح في تاب جديد
+        st.markdown(f'<a href="./?p={link_key}" target="_blank" class="nav-button">{title}</a>', unsafe_allow_html=True)
 
-# --- صفحة الحجز ---
-elif page == "booking":
-    st.markdown("### 📅 بيانات الحجز")
-    with st.form("booking_form"):
-        name = st.text_input("الاسم بالكامل")
-        phone = st.text_input("رقم الهاتف")
-        age = st.text_input("السن")
-        address = st.text_input("العنوان")
-        
-        if st.form_submit_button("إرسال البيانات عبر واتساب", use_container_width=True):
-            if name and phone:
-                text = f"✨ حجز جديد من الموقع ✨\n👤 الاسم: {name}\n📱 الهاتف: {phone}\n🎂 السن: {age}\n📍 العنوان: {address}"
-                link = f"https://wa.me/{WHATSAPP_NUM}?text={urllib.parse.quote(text)}"
-                st.markdown(f'<a href="{link}" target="_blank" style="background:#25D366; color:white; padding:15px; border-radius:10px; display:block; text-align:center; text-decoration:none; font-weight:bold;">✅ اضغطي هنا لتأكيد الحجز</a>', unsafe_allow_html=True)
-            else:
-                st.error("يرجى ملء البيانات الأساسية")
-
-# --- صفحة الآراء ---
-elif page == "reviews":
-    st.markdown("### 🌟 رأي عملائنا")
-    with st.expander("📝 أضيفي رأيك هنا"):
-        r_name = st.text_input("اسمك")
-        r_text = st.text_area("رأيك في خدماتنا")
-        if st.button("نشر الرأي"):
-            if r_name and r_text:
-                save_review(r_text, r_name)
-                st.success("شكراً لرأيك الجميل!")
-                st.rerun()
-
-    revs = load_reviews()
-    for r in reversed(revs):
-        if "|" in r:
-            msg, author = r.strip().split("|")
-            st.markdown(f"""
-            <div style="background: rgba(212,175,55,0.05); padding: 15px; border-radius: 10px; border-right: 4px solid #D4AF37; margin-bottom: 10px;">
-                <p style="margin:0;">"{msg}"</p>
-                <small style="color:#D4AF37;">— {author}</small>
-            </div>
-            """, unsafe_allow_html=True)
-
-# --- صفحة الصور ---
-elif page == "gallery":
-    st.markdown("### ✨ معرض صور السنتر")
-    st.info("جاري رفع أحدث الصور من أعمالنا المتميزة..")
-
-# --- صفحة الأسعار ---
-elif page == "prices":
-    st.markdown("### 💵 قائمة الأسعار")
-    st.info("سيتم تحديث قائمة الأسعار بأقوى العروض قريباً")
-
-# ==========================================
-# 7. الشريط الجانبي (Sidebar - Professional)
-# ==========================================
-with st.sidebar:
-    st.image(LOGO_URL, width=150)
+# --- صفحة الحجز (بدون فواصل زيارة وبسيطة) ---
+elif current_p == "booking":
+    st.markdown("<h2 style='text-align: center;'>🗓️ طلب حجز جديد</h2>", unsafe_allow_html=True)
+    st.write("يرجى إدخال البيانات التالية وسيقوم فريقنا بالتواصل معكِ فوراً:")
     
-    # حالة السنتر
-    msg, bg, txt = check_status()
-    st.markdown(f'<div style="background:{bg}; color:{txt}; padding:10px; border-radius:8px; text-align:center; font-weight:bold; border:1px solid {txt};">{msg}</div>', unsafe_allow_html=True)
+    c1, c2 = st.columns(2)
+    with c1:
+        u_name = st.text_input("الاسم بالكامل 👤")
+        u_age = st.text_input("السن 🎂")
+    with c2:
+        u_phone = st.text_input("رقم الموبايل 📱")
+        u_addr = st.text_input("المنطقة/العنوان 📍")
     
-    st.markdown("<br>", unsafe_allow_html=True)
+    service = st.selectbox("نوع الخدمة المطلوبة ✨", ["ميك أب", "شعر", "عناية بالبشرة", "أخرى"])
+    notes = st.text_area("هل لديكِ أي ملاحظات خاصة؟ 📝")
     
-    # أزرار الاتصال واللوكيشن الأصلية
-    st.markdown(f'<a href="tel:{PHONE_1}" style="text-decoration:none;"><div style="background-color:#007bff; color:white; padding:12px; border-radius:8px; text-align:center; margin-bottom:10px; font-weight:bold;">📞 اتصل بنا الآن</div></a>', unsafe_allow_html=True)
-    st.markdown(f'<a href="{LOCATION_URL}" target="_blank" style="text-decoration:none;"><div style="background-color:#6c757d; color:white; padding:12px; border-radius:8px; text-align:center; margin-bottom:10px; font-weight:bold;">📍 موقعنا على الخريطة</div></a>', unsafe_allow_html=True)
+    if st.button("🚀 إرسال الطلب عبر واتساب", use_container_width=True):
+        if u_name and u_phone:
+            full_msg = f"✨ طلب حجز جديد ✨\n━━━━━━━━━━━━\n👤 الاسم: {u_name}\n📱 الموبايل: {u_phone}\n🎂 السن: {u_age}\n📍 العنوان: {u_addr}\n💄 الخدمة: {service}\n📝 ملاحظات: {notes}"
+            wa_url = generate_wa_link(full_msg)
+            # فتح الواتساب في تاب جديد
+            st.markdown(f'<meta http-equiv="refresh" content="0; url={wa_url}">', unsafe_allow_html=True)
+            st.success("جاري توجيهك إلى واتساب لتأكيد الحجز..")
+        else:
+            st.warning("رجاءً تأكدي من كتابة الاسم ورقم الهاتف.")
+
+# --- الصفحات الأخرى (قوالب جاهزة للتعبئة) ---
+elif current_p == "prices":
+    st.markdown("### 💰 قائمة الأسعار")
+    st.info("سيتم إضافة قائمة الأسعار التفصيلية هنا قريباً.. انتظرو عروضنا القوية!")
     
-    # الأرقام والعنوان الأصلي تماماً
-    st.markdown(f"""
-    <div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; background:rgba(255,255,255,0.02);">
-        <p style="margin:0; font-size:14px;">📱 {PHONE_1}</p>
-        <p style="margin:0; font-size:14px;">📱 {PHONE_2}</p>
-        <hr style="margin:10px 0; border-color:rgba(212,175,55,0.1);">
-        <p style="font-size:13px; line-height:1.6;">📍 <b>العنوان:</b><br>الدقهلية - منية النصر - شارع البحر - أمام ستار مول - أعلى يونيكورن - الدور الخامس</p>
-    </div>
-    """, unsafe_allow_html=True)
+elif current_p == "gallery":
+    st.markdown("### 📸 معرض أعمالنا")
+    st.write("نعرض لكِ هنا عينات من شغلنا المتميز:")
+    st.warning("جاري تحميل الصور من السيرفر..")
+
+elif current_p == "reviews":
+    st.markdown("### ⭐ آراء عملائنا")
+    st.success("شغل يارا ملوش حل بجد، تسلم إيدك! 😍")
+    st.success("أجمل مكان وأحسن معاملة في منية النصر كلها. ❤️")
