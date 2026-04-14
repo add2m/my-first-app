@@ -34,7 +34,7 @@ def handle_reviews(action="read", data=None):
     return reviews
 
 # ============================================================
-# 2. كود الـ CSS الملكي (النسخة الطويلة والمطورة)
+# 2. كود الـ CSS الملكي (النسخة الطويلة)
 # ============================================================
 st.markdown("""
 <style>
@@ -46,7 +46,6 @@ st.markdown("""
         text-align: right;
     }
 
-    /* السايدبار جهة اليمين */
     [data-testid="stSidebar"] {
         position: fixed;
         right: 0 !important;
@@ -58,7 +57,6 @@ st.markdown("""
     
     section[data-testid="stSidebar"] > div { direction: rtl; }
 
-    /* الخلفية الغامقة الملكية */
     .stApp {
         background: #000000;
         background-image: 
@@ -68,7 +66,6 @@ st.markdown("""
         color: #ffffff !important;
     }
 
-    /* أنيميشن المقص الذهبي */
     @keyframes scissors-swing {
         0% { transform: rotate(0deg) scale(1); opacity: 0.15; }
         50% { transform: rotate(-12deg) scale(1.05); opacity: 0.3; }
@@ -86,7 +83,6 @@ st.markdown("""
         animation: scissors-swing 8s ease-in-out infinite;
     }
 
-    /* تنسيق الأزرار الذهبية */
     .nav-btn {
         border: 1px solid rgba(212, 175, 55, 0.4) !important;
         background: rgba(255, 255, 255, 0.03) !important;
@@ -101,14 +97,12 @@ st.markdown("""
         color: #D4AF37 !important;
         font-weight: bold;
         font-size: 1.15rem;
-        cursor: pointer;
     }
 
     .nav-btn:hover {
         background: #D4AF37 !important;
         color: #000 !important;
         transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
     }
 
     .review-card {
@@ -127,20 +121,6 @@ st.markdown("""
         <path d="M490.5 35.8c-18.7-18.7-49.1-18.7-67.9 0L256 202.5 89.4 35.8c-18.7-18.7-49.1-18.7-67.9 0-18.7 18.7-18.7 49.1 0 67.9L188.2 270.3l-142.1 142c-29.4 29.4-29.4 77 0 106.4 29.4 29.4 77 29.4 106.4 0l103.5-103.5 103.5 103.5c29.4 29.4 77 29.4 106.4 0 29.4-29.4 29.4-77 0-106.4l-142.1-142 166.7-166.6c18.7-18.8 18.7-49.2 0-67.9zM152.7 465.1c-10.6 10.6-27.7 10.6-38.3 0s-10.6-27.7 0-38.3l103.5-103.5 38.3 38.3-103.5 103.5zm244-38.3c10.6 10.6 10.6 27.7 0 38.3s-27.7 10.6-38.3 0l-103.5-103.5 38.3-38.3 103.5 103.5z"/>
     </svg>
 </div>
-
-<script>
-function shareSite() {
-    if (navigator.share) {
-        navigator.share({
-            title: 'بيوتي سنتر يارا ثروت',
-            text: 'اكتشفي الجمال والأناقة في بيوتي سنتر يارا ثروت ✨',
-            url: window.location.href
-        });
-    } else {
-        alert("ميزة المشاركة غير مدعومة في هذا المتصفح، يمكنك نسخ الرابط يدوياً.");
-    }
-}
-</script>
 """, unsafe_allow_html=True)
 
 # ============================================================
@@ -159,7 +139,7 @@ VIDS = [
 ]
 
 # ============================================================
-# 4. السايدبار (إزالة الخريطة وإضافة زر المشاركة)
+# 4. السايدبار (تحديث زر المشاركة للواتساب)
 # ============================================================
 with st.sidebar:
     st.image(LOGO, use_container_width=True)
@@ -168,19 +148,21 @@ with st.sidebar:
     st.markdown(f"""<div style="background:{'rgba(40,167,69,0.1)' if is_open else 'rgba(220,53,69,0.1)'}; color:{'#28a745' if is_open else '#dc3545'}; padding:12px; border-radius:10px; text-align:center; font-weight:bold; border:1px solid;">{'🟢 نتشرف بكم الآن' if is_open else '🔴 السنتر مغلق'}</div>""", unsafe_allow_html=True)
     st.write("<br>", unsafe_allow_html=True)
     
+    # أزرار الاتصال
     st.markdown(f'<a href="tel:{PHONES[0]}" target="_blank" style="text-decoration:none;"><div style="background:#007bff; color:white; padding:12px; border-radius:10px; text-align:center; margin-bottom:10px; font-weight:bold;">📞 اتصلي بنا</div></a>', unsafe_allow_html=True)
     
-    # زر مشاركة الموقع الجديد (بدل الخريطة)
-    if st.button("🔗 مشاركة الموقع مع صديقاتك", use_container_width=True):
-        st.components.v1.html("""<script>
-            if (navigator.share) {
-                navigator.share({
-                    title: 'بيوتي سنتر يارا ثروت',
-                    text: 'اكتشفي الجمال والأناقة في بيوتي سنتر يارا ثروت ✨',
-                    url: window.location.origin
-                });
-            }
-        </script>""", height=0)
+    # --- زر المشاركة عبر الواتساب الجديد ---
+    share_text = "اكتشفي الجمال والأناقة في بيوتي سنتر يارا ثروت ✨ شاهدي أعمالنا واحجزي موعدك من هنا: "
+    # ملاحظة: يمكنك وضع رابط موقعك الفعلي بدلاً من window.location.origin إذا كان ثابتاً
+    wa_share_url = f"https://wa.me/?text={urllib.parse.quote(share_text)}https://yara-tharwat.streamlit.app/"
+    
+    st.markdown(f"""
+        <a href="{wa_share_url}" target="_blank" style="text-decoration:none;">
+            <div style="background:#25D366; color:white; padding:12px; border-radius:10px; text-align:center; margin-bottom:10px; font-weight:bold;">
+                🟢 مشاركة الموقع عبر واتساب
+            </div>
+        </a>
+    """, unsafe_allow_html=True)
 
     st.markdown(f"""<div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; background:rgba(255,255,255,0.02); font-size:14px;"><b>📱 أرقامنا:</b><br>{PHONES[0]}<br>{PHONES[1]}<br><hr><b>📍 العنوان:</b><br>{ADDR}</div>""", unsafe_allow_html=True)
 
