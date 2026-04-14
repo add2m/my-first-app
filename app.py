@@ -1,11 +1,9 @@
 import streamlit as st
 import urllib.parse
-import os
-import time
 from datetime import datetime, timedelta
 
 # ============================================================
-# 1. إعدادات الصفحة المتقدمة (Streamlit Configuration)
+# 1. إعدادات الصفحة (Page Configuration)
 # ============================================================
 st.set_page_config(
     page_title="✨ بيوتي سنتر يارا ثروت ✨",
@@ -15,7 +13,7 @@ st.set_page_config(
 )
 
 # ============================================================
-# 2. كود الـ CSS الاحترافي (Advanced UI/UX)
+# 2. التنسيق البرمجي المتقدم (Advanced CSS)
 # ============================================================
 st.markdown("""
 <style>
@@ -36,8 +34,6 @@ st.markdown("""
         border-right: 2px solid #D4AF37;
         z-index: 100;
     }
-    
-    section[data-testid="stSidebar"] > div { direction: rtl; }
 
     /* الخلفية الغامقة الملكية */
     .stApp {
@@ -49,7 +45,7 @@ st.markdown("""
         color: #ffffff !important;
     }
 
-    /* أنيميشن المقص الذهبي (جهة اليسار) */
+    /* أنيميشن المقص الذهبي */
     @keyframes scissors-float {
         0% { transform: translateY(0px) rotate(0deg); opacity: 0.2; }
         50% { transform: translateY(-20px) rotate(-10deg); opacity: 0.4; }
@@ -60,8 +56,8 @@ st.markdown("""
         position: fixed;
         bottom: 5%;
         left: 3%; 
-        width: 280px;
-        height: 280px;
+        width: 250px;
+        height: 250px;
         z-index: 0;
         pointer-events: none;
         animation: scissors-float 7s ease-in-out infinite;
@@ -81,17 +77,14 @@ st.markdown("""
         display: block;
         color: #D4AF37 !important;
         font-weight: bold;
-        font-size: 1.1rem;
     }
 
     .nav-link-custom:hover {
         background: #D4AF37 !important;
         color: #000 !important;
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
     }
 
-    /* إخفاء شعارات Streamlit */
     #MainMenu, footer, header { visibility: hidden; }
 </style>
 
@@ -103,36 +96,29 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# 3. البيانات والثوابت (Business Data)
+# 3. بيانات السنتر والفيديوهات (Business Data & Videos)
 # ============================================================
 LOGO = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 WA_NUM = "201055901090"
 PHONES = ["01055901090", "01055907095"]
-MAP_URL = "http://googleusercontent.com/maps.google.com/5"
+MAP_URL = "https://maps.app.goo.gl/YourMapLink"
 ADDR = "الدقهلية - منية النصر - شارع البحر - أمام ستار مول - أعلى يونيكورن - الدور الخامس"
 
-# قائمة الفيديوهات (التي قمت بإرسالها)
-VIDEO_URLS = [
-    "https://www.w3schools.com/html/mov_bbb.mp4", # فيديو تجريبي 1 (استبدله بروابط فيديوهاتك)
-    "https://www.w3schools.com/html/movie.mp4"    # فيديو تجريبي 2 (استبدله بروابط فيديوهاتك)
+# روابط الفيديوهات المطلوبة
+VIDEOS = [
+    "https://drive.google.com/file/d/1Xy_VideoID1/preview",
+    "https://drive.google.com/file/d/1Xy_VideoID2/preview"
 ]
 
 # ============================================================
-# 4. السايدبار (جهة اليمين - الأرقام واللوكيشن)
+# 4. السايدبار (Sidebar)
 # ============================================================
 with st.sidebar:
     st.image(LOGO, use_container_width=True)
     
-    # الحالة المباشرة
     now = datetime.utcnow() + timedelta(hours=3)
-    is_open = 13 <= now.hour < 22
-    st.markdown(f"""
-        <div style="background:{'rgba(40,167,69,0.1)' if is_open else 'rgba(220,53,69,0.1)'}; 
-        color:{'#28a745' if is_open else '#dc3545'}; padding:10px; border-radius:10px; 
-        text-align:center; font-weight:bold; border:1px solid;">
-            {'🟢 متاحون لخدمتكم الآن' if is_open else '🔴 السنتر مغلق حالياً'}
-        </div>
-    """, unsafe_allow_html=True)
+    status = "🟢 متاح الآن" if 13 <= now.hour < 22 else "🔴 مغلق حالياً"
+    st.markdown(f'<div style="background:rgba(212,175,55,0.1); color:#D4AF37; padding:10px; border-radius:10px; text-align:center; font-weight:bold; border:1px solid;">{status}</div>', unsafe_allow_html=True)
     
     st.write("<br>", unsafe_allow_html=True)
     
@@ -140,17 +126,10 @@ with st.sidebar:
     st.markdown(f'<a href="tel:{PHONES[0]}" target="_blank" style="text-decoration:none;"><div style="background:#007bff; color:white; padding:12px; border-radius:10px; text-align:center; margin-bottom:10px; font-weight:bold;">📞 اتصلي بنا</div></a>', unsafe_allow_html=True)
     st.markdown(f'<a href="{MAP_URL}" target="_blank" style="text-decoration:none;"><div style="background:#6c757d; color:white; padding:12px; border-radius:10px; text-align:center; margin-bottom:10px; font-weight:bold;">📍 موقعنا بالخريطة</div></a>', unsafe_allow_html=True)
     
-    # تفاصيل الأرقام والعنوان
-    st.markdown(f"""
-        <div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; background:rgba(255,255,255,0.03); font-size:14px;">
-            <b>📱 الأرقام:</b><br>{PHONES[0]}<br>{PHONES[1]}<br>
-            <hr style="margin:10px 0; border-color:rgba(212,175,55,0.1);">
-            <b>📍 العنوان:</b><br>{ADDR}
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown(f'<div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; background:rgba(255,255,255,0.03); font-size:14px;"><b>📱 الأرقام:</b><br>{PHONES[0]}<br>{PHONES[1]}<br><hr><b>📍 العنوان:</b><br>{ADDR}</div>', unsafe_allow_html=True)
 
 # ============================================================
-# 5. إدارة المحتوى (Main Content & Navigation)
+# 5. إدارة المحتوى (Navigation)
 # ============================================================
 p = st.query_params.get("p", "home")
 
@@ -158,51 +137,21 @@ if p == "home":
     st.image(LOGO, use_container_width=True)
     st.markdown("<h2 style='text-align: center; color:#D4AF37;'>✨ بيوتي سنتر يارا ثروت ✨</h2>", unsafe_allow_html=True)
     
-    # قائمة الأزرار الرئيسية
-    links = [
-        ("📅 للحجز والاستفسار", "booking"),
-        ("💰 قائمة الأسعار والعروض", "prices"),
-        ("🎥 فيديو لشغلنا (المعرض)", "gallery"),
-        ("⭐ رأي عملائنا", "reviews")
-    ]
-    
+    links = [("📅 للحجز والاستفسار", "booking"), ("💰 الأسعار والعروض", "prices"), ("🎥 معرض الفيديوهات", "gallery"), ("⭐ آراء عملائنا", "reviews")]
     for text, target in links:
         st.markdown(f'<a href="./?p={target}" target="_blank" class="nav-link-custom">{text}</a>', unsafe_allow_html=True)
 
-elif p == "booking":
-    st.markdown("### 📅 طلب حجز سريع")
-    # تصميم انسيابي بدون فواصل
-    c1, c2 = st.columns(2)
-    with c1:
-        name = st.text_input("الاسم")
-        age = st.text_input("السن")
-    with c2:
-        phone = st.text_input("رقم الموبايل")
-        service = st.selectbox("الخدمة", ["ميك أب", "بروتين", "بشرة", "أخرى"])
-    
-    if st.button("إرسال الطلب عبر واتساب", use_container_width=True):
-        if name and phone:
-            msg = f"✨ حجز جديد ✨\nالاسم: {name}\nالهاتف: {phone}\nالسن: {age}\nالخدمة: {service}"
-            link = f"https://wa.me/{WA_NUM}?text={urllib.parse.quote(msg)}"
-            st.markdown(f'<meta http-equiv="refresh" content="0; url={link}">', unsafe_allow_html=True)
-            st.success("تم التوجيه للواتساب..")
-
 elif p == "gallery":
-    st.markdown("### 🎥 معرض فيديوهاتنا")
-    st.write("استمتعي بمشاهدة أحدث أعمالنا:")
-    
-    # عرض الفيديوهات ورا بعضها بتنسيق فخم
-    for i, vid in enumerate(VIDEO_URLS):
-        with st.container():
-            st.video(vid)
-            st.markdown(f"<p style='text-align:center; color:#D4AF37;'>فيديو رقم {i+1} ✨</p>", unsafe_allow_html=True)
-            st.write("---")
+    st.markdown("### 🎥 معرض الفيديوهات")
+    for vid in VIDEOS:
+        st.markdown(f'<iframe src="{vid}" width="100%" height="480" allow="autoplay"></iframe>', unsafe_allow_html=True)
+        st.write("---")
 
-elif p == "prices":
-    st.markdown("### 💰 الأسعار والعروض")
-    st.info("انتظروا أقوى عروض الموسم قريباً جداً..")
-
-elif p == "reviews":
-    st.markdown("### ⭐ آراء الجميلات")
-    st.success("المكان يجنن والشغل احترافي جداً ❤️")
-    st.success("تسلم إيدك يا يارا، ميك أب روعة بجد!")
+elif p == "booking":
+    st.markdown("### 📅 طلب حجز")
+    with st.form("booking_form"):
+        name = st.text_input("الاسم")
+        phone = st.text_input("الموبايل")
+        if st.form_submit_button("إرسال عبر واتساب"):
+            msg = f"✨ حجز جديد ✨\nالاسم: {name}\nالهاتف: {phone}"
+            st.markdown(f'<meta http-equiv="refresh" content="0; url=https://wa.me/{WA_NUM}?text={urllib.parse.quote(msg)}">', unsafe_allow_html=True)
