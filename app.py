@@ -152,7 +152,7 @@ with st.sidebar:
     st.markdown(f'<a href="tel:{PHONES[0]}" target="_blank" style="text-decoration:none;"><div style="background:#007bff; color:white; padding:12px; border-radius:10px; text-align:center; margin-bottom:10px; font-weight:bold;">📞 اتصلي بنا</div></a>', unsafe_allow_html=True)
     
     # --- زر المشاركة عبر الواتساب الجديد ---
-    share_text = "اكتشفي الجمال والأناقة في بيوتي سنتر يارا ثروت ✨ شاهدي أعمالنا واحجزي موعدك من هنا: "
+    share_text = "شوفت بيوتي سنتر يارا ثروت وعجبني ادخلي شوفيه انتي كمان من اللينك ده"
     # ملاحظة: يمكنك وضع رابط موقعك الفعلي بدلاً من window.location.origin إذا كان ثابتاً
     wa_share_url = f"https://wa.me/?text={urllib.parse.quote(share_text)}https://yara-tharwat.streamlit.app/"
     
@@ -177,8 +177,8 @@ if p == "home":
     menu = [
         ("📅 للحجز والاستفسار ✨💄", "booking"), 
         ("💰 قائمة الأسعار والعروض 💸", "prices"),
-        ("🎥 معرض فيديوهاتنا 🎬", "gallery"), 
-        ("⭐ آراء الجميلات 💖", "reviews")
+        ("🎥 صور لشغلنا 🎬", "gallery"), 
+        ("⭐ آراء العملاء 💖", "reviews")
     ]
     for text, target in menu:
         st.markdown(f'<a href="./?p={target}" target="_blank" class="nav-btn">{text}</a>', unsafe_allow_html=True)
@@ -191,25 +191,25 @@ elif p == "booking":
         age = st.text_input("السن 🎂")
     with col2:
         phone = st.text_input("رقم الموبايل 📱")
-        service = st.selectbox("الخدمة المطلوبة ✨", ["شعر", "بشرة", "حمام مغربي", "أخرى"])
+        service = st.selectbox("الخدمة المطلوبة ✨", ["شعر", "بشرة", "أخرى"])
     notes = st.text_area("ملاحظات إضافية 📝")
     if st.button("🚀 إرسال الطلب عبر واتساب", use_container_width=True):
         if name and phone:
-            msg = f"✨ حجز جديد ✨\nالاسم: {name}\nالسن: {age}\nالهاتف: {phone}\nالخدمة: {service}\nملاحظات: {notes}"
+            msg = f"✨ حجز جديد ✨\n--------------\nالاسم: {name}\nالسن: {age}\nالهاتف: {phone}\nالخدمة: {service}\nملاحظات: {notes}"
             st.markdown(f'<meta http-equiv="refresh" content="0; url=https://wa.me/{WA_NUM}?text={urllib.parse.quote(msg)}">', unsafe_allow_html=True)
 
 elif p == "prices":
     st.markdown("### 💰 قائمة الأسعار والعروض 💸")
-    st.info("انتظروا أقوى عروض الموسم الحصرية قريباً جداً! 🔥")
+    st.info("سيتم عرض الاسعار هنا قريبا....")
 
 elif p == "gallery":
-    st.markdown("### 🎥 معرض الفيديوهات 🎬")
+    st.markdown("### 🎥 صور لشغلنا 🎬")
     for v_id in VIDS:
         st.markdown(f'<iframe src="https://drive.google.com/file/d/{v_id}/preview" width="100%" height="450"></iframe>', unsafe_allow_html=True)
         st.write("---")
 
 elif p == "reviews":
-    st.markdown("### ⭐ آراء الجميلات 💖")
+    st.markdown("### ⭐ آراء العملاء 💖")
     with st.expander("اضف رأيك هنا ✨"):
         with st.form("review_form"):
             r_name = st.text_input("الاسم")
