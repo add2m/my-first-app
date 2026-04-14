@@ -64,10 +64,28 @@ if current_page == "booking":
         
         if st.form_submit_button("إرسال البيانات", use_container_width=True):
             if u_name and u_phone:
-                full_msg = f"حجز جديد من الموقع:\n- الاسم: {u_name}\n- الهاتف: {u_phone}\n- السن: {u_age}\n- العنوان: {u_address}"
+                # طريقة منظمة جداً للرسالة عشان تروح كاملة
+                lines = [
+                    "✨ حجز جديد من الموقع ✨",
+                    f"👤 الاسم: {u_name}",
+                    f"📱 الهاتف: {u_phone}",
+                    f"🎂 السن: {u_age}",
+                    f"📍 العنوان: {u_address}"
+                ]
+                full_msg = "\n".join(lines)
                 msg = urllib.parse.quote(full_msg)
-                st.markdown(f'<a href="https://wa.me/{whatsapp_num}?text={msg}" target="_blank" style="background-color: #25D366; color: white; padding: 15px; text-decoration: none; border-radius: 10px; display: block; text-align: center;">تأكيد عبر واتساب</a>', unsafe_allow_html=True)
-
+                
+                # الزرار بشكل أوضح
+                st.markdown(f'''
+                    <a href="https://wa.me/{whatsapp_num}?text={msg}" target="_blank" 
+                       style="background-color: #25D366; color: white; padding: 15px; 
+                       text-decoration: none; border-radius: 10px; display: block; 
+                       text-align: center; font-weight: bold; font-size: 18px;">
+                       ✅ إرسال عبر واتساب الآن
+                    </a>
+                ''', unsafe_allow_html=True)
+            else:
+                st.error("⚠️ من فضلك ادخلي الاسم ورقم الهاتف")
 elif current_page == "prices":
     st.markdown("### 💵 قائمة الأسعار")
     st.info("سيتم إضافة قائمة الأسعار قريباً")
