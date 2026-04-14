@@ -19,7 +19,7 @@ def get_business_status():
     if start_hour <= current_hour < end_hour:
         return "🟢 نحن متاحون الآن.. أهلاً بكِ", "rgba(40, 167, 69, 0.1)", "#28a745"
     else:
-        return "🔴 المركز مغلق حالياً", "rgba(220, 53, 69, 0.1)", "#dc3545"
+        return "🔴 السنتر مغلق حالياً", "rgba(220, 53, 69, 0.1)", "#dc3545"
 
 status_msg, bg_color, text_color = get_business_status()
 
