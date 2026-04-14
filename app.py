@@ -195,7 +195,7 @@ elif p == "booking":
     notes = st.text_area("ملاحظات إضافية 📝")
     if st.button("🚀 إرسال الطلب عبر واتساب", use_container_width=True):
         if name and phone:
-            msg = f"✨ حجز جديد ✨\n--------------\nالاسم: {name}\nالسن: {age}\nالهاتف: {phone}\nالخدمة: {service}\nملاحظات: {notes}"
+            msg = f"✨ حجز جديد ✨\n-----------------------------------------------------\nالاسم: {name}\nالسن: {age}\nالهاتف: {phone}\nالخدمة: {service}\nملاحظات: {notes}"
             st.markdown(f'<meta http-equiv="refresh" content="0; url=https://wa.me/{WA_NUM}?text={urllib.parse.quote(msg)}">', unsafe_allow_html=True)
 
 elif p == "prices":
