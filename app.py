@@ -184,7 +184,7 @@ elif p == "booking":
         age = st.text_input("السن 🎂") # إضافة خانة السن كما طلبت
     with col2:
         phone = st.text_input("رقم الموبايل 📱")
-        service = st.selectbox("الخدمة المطلوبة ✨", ["شعر", "بشرة", "حمام مغربي", "أخرى"])
+        service = st.selectbox("الخدمة المطلوبة ✨", ["شعر", "بشرة", "أخرى"])
     
     notes = st.text_area("ملاحظات إضافية 📝")
     
@@ -196,7 +196,7 @@ elif p == "booking":
 
 elif p == "prices":
     st.markdown("### 💰 قائمة الأسعار والعروض 💸")
-    st.info("انتظروا أقوى عروض الموسم الحصرية قريباً جداً! 🔥")
+    st.info("سيتم عرض الاسعار هنا قريبا.....")
     # يمكنك إضافة جدول أسعار هنا مستقبلاً
 
 elif p == "gallery":
@@ -206,7 +206,7 @@ elif p == "gallery":
         st.write("---")
 
 elif p == "reviews":
-    st.markdown("### ⭐ آراء الجميلات 💖")
+    st.markdown("### ⭐ آراء العملاء 💖")
     with st.expander("اضف رأيك هنا ✨"):
         with st.form("review_form"):
             r_name = st.text_input("الاسم")
