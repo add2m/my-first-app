@@ -3,79 +3,92 @@ import urllib.parse
 import os
 from datetime import datetime, timedelta
 
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="✨اهلا بكم في بيوتي سنتر يارا ثروت✨", layout="centered")
+# 1. إعدادات الصفحة - تنسيق centered ومحسن للموبايل
+st.set_page_config(page_title="✨اهلا بكم في بيوتي سنتر يارا ثروت✨", layout="centered", initial_sidebar_state="collapsed")
 
-# --- خلفية "تموجات الشفق القطبي الذهبية" فائقة الدهشة والمضمونة 100% ---
-# تم استخدام كود CSS نقي لإنشاء تأثير حركة أمواج متدرجة بالأسود والذهبي.
-st.markdown("""
+# 2. تعريف رابط صورة الخلفية الجديدة
+background_image_url = "https://i.postimg.cc/85z1X2t9/image-4.png" # تم رفع الصورة واستخدام رابط مباشر موثوق
+
+# --- تنسيقات CSS احترافية ومخصصة للموبايل والهواتف ---
+# التنسيقات دي بتثبت الخلفية، وبتخلي المربعات شفافة وواضحة، وبتحسن عرض الكلام على الشاشات الصغيرة.
+st.markdown(f"""
 <style>
-/* تعيين خلفية سوداء أساسية */
-.stApp {
-    background: #000;
-    overflow: hidden;
-}
+/* تعيين الخلفية الرخامية للموقع بالكامل */
+.stApp {{
+    background-image: url("{background_image_url}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* الخلفية ثابتة والكلام بيتحرك */
+}}
 
-/* حاوية الخلفية المتحركة */
-.stApp::before {
-    content: "";
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    
-    /* المتدرج اللوني المدهش: أسود ودرجات ذهبية خافتة */
-    background: radial-gradient(circle at center, rgba(15, 15, 15, 0) 0%, #000 100%),
-                linear-gradient(135deg, 
-                                #000 0%, 
-                                #111 25%, 
-                                rgba(212, 175, 55, 0.08) 50%, 
-                                #111 75%, 
-                                #000 100%);
-    
-    background-size: 400% 400%;
-    
-    /* حركة تموجات بطيئة وناعمة */
-    animation: goldAuroraWaves 30s ease infinite;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.7; /* درجة شفافية عشان متغطيش على الكلام */
-}
-
-@keyframes goldAuroraWaves {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* تأكيد إن المحتوى نفسه ظاهر فوق الخلفية وواضح */
-.element-container, .stMarkdown, .stImage, .stButton {
+/* تأكيد تنسيق الحاوية الأساسية لتكون فوق الخلفية */
+.main {{
     position: relative;
     z-index: 10;
-}
+    padding-top: 20px;
+    padding-bottom: 20px;
+}}
 
-/* تنسيق المربعات لتكون منسجمة مع الفخامة والدهشة */
-div[data-testid="stMarkdownContainer"] > div > a > div {
-    border: 1px solid rgba(212, 175, 55, 0.2) !important;
-    background: rgba(255, 255, 255, 0.03) !important;
-    backdrop-filter: blur(5px);
-    transition: 0.4s !important;
-    color: #eee !important;
-}
+/* تحسين تنسيق المربعات (الأسعار، الآراء، الحجز، الجاليري) */
+div[data-testid="stMarkdownContainer"] > div > a > div, .stForm {{
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    background: rgba(0, 0, 0, 0.7) !important; /* خلفية سوداء شفافة جداً عشان الكلام يبان */
+    backdrop-filter: blur(5px); /* تأثير ضبابي خفيف */
+    transition: 0.3s all ease-in-out !important;
+    color: #fff !important; /* لون الكلام أبيض */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+}}
 
-div[data-testid="stMarkdownContainer"] > div > a > div:hover {
-    border: 1px solid rgba(212, 175, 55, 0.8) !important;
-    background: rgba(212, 175, 55, 0.05) !important;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
-}
+/* تنسيق الهيدر واللوجو */
+.stImage img {{
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}}
+
+/* تحسين عرض الآراء */
+.rev-box {{
+    padding: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background: rgba(0,0,0,0.6);
+}}
+
+/* --- تنسيقات مخصصة للهواتف (شاشات أقل من 600px) --- */
+@media (max-width: 600px) {{
+    .main {{
+        padding-left: 10px;
+        padding-right: 10px;
+    }}
+    
+    .stImage img {{
+        max-width: 100%;
+        height: auto;
+    }}
+    
+    /* جعل أزرار الرئيسية أكبر كـ "أقراص" عشان اللمس */
+    div[data-testid="stMarkdownContainer"] > div > a > div {{
+        padding: 18px !important;
+        font-size: 16px !important;
+    }}
+    
+    /* تكبير عناوين الصفحات على الموبايل */
+    h2, h3 {{
+        font-size: 22px !important;
+        text-align: center !important;
+    }}
+    
+    /* تحسين عرض التليفونات في السايدبار */
+    div[data-testid="stSidebar"] div[data-testid="stMarkdownContainer"] {{
+        font-size: 14px !important;
+    }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
-# --- باقي الكود الأساسي كما هو تماماً ---
-
-# --- وظيفة حساب حالة العمل ---
+# --- وظيفة حساب حالة العمل (مصر UTC+3) ---
 def get_business_status():
     now = datetime.utcnow() + timedelta(hours=3)
     current_hour = now.hour
@@ -103,7 +116,7 @@ def handle_reviews(action="read", data=None):
             with open(file_path, "w", encoding="utf-8") as f: f.writelines(reviews)
     return reviews
 
-# 2. البيانات والروابط
+# 2. البيانات والروابط الأساسية
 logo_url = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 whatsapp_num = "201055901090"
 phone_1 = "01055901090"
@@ -116,7 +129,7 @@ video_ids = ["1eC2Vhnj9ON69lKyMPWtrXENQiDA8QnBL", "1w1PWV3eQaXAz1Cdz5WBJrtX3lDSi
              "1SuxPy8-LsRE4iizxcR531sTXPeZdY-n0", "1wlMl0Mi7COStjKh1d8B9JxWqj7Cf-fD1", 
              "1mGeV2CQrYyJCwZkSGBrB2rhMqta8BlOU"]
 
-# 3. إدارة التنقل
+# 3. إدارة التنقل عبر الرابط
 query_params = st.query_params
 current_page = query_params.get("p", "home")
 
@@ -134,6 +147,8 @@ if current_page == "booking":
                 full_msg = "\n".join(lines)
                 msg = urllib.parse.quote(full_msg)
                 st.markdown(f'<a href="https://wa.me/{whatsapp_num}?text={msg}" target="_blank" style="background-color: #25D366; color: white; padding: 15px; text-decoration: none; border-radius: 10px; display: block; text-align: center; font-weight: bold;">✅ تأكيد عبر واتساب</a>', unsafe_allow_html=True)
+            else:
+                st.warning("من فضلك ادخلي الاسم ورقم الهاتف")
 
 elif current_page == "prices":
     st.markdown("### 💵 قائمة الأسعار")
@@ -153,7 +168,17 @@ elif current_page == "reviews":
     for rev in reversed(all_revs):
         if "|" in rev:
             t, n = rev.strip().split("|")
-            st.markdown(f'<div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; margin-bottom:10px; background: rgba(255,255,255,0.02);">"{t}"<br><small style="color:#D4AF37;">- {n}</small></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="rev-box">"{t}"<br><small style="color:#D4AF37;">- {n}</small></div>', unsafe_allow_html=True)
+            
+    with st.expander("🔐 إدارة"):
+        pwd = st.text_input("الباسورد", type="password")
+        if pwd == ADMIN_PASSWORD:
+            for i, rev in enumerate(all_revs):
+                if "|" in rev:
+                    content, sender = rev.strip().split("|")
+                    if st.button(f"🗑️ حذف {sender}", key=f"del_{i}"):
+                        handle_reviews("delete_one", i)
+                        st.rerun()
 
 elif current_page == "gallery":
     st.markdown("### ✨ فيديوهات من شغلنا")
@@ -162,18 +187,19 @@ elif current_page == "gallery":
         st.write("---")
 
 else:
-    # الصفحة الرئيسية
+    # الصفحة الرئيسية (الافتراضية)
+    # جعل اللوجو في الوسط على الموبايل
     st.image(logo_url, use_container_width=True)
     st.markdown("<h2 style='text-align: center; color: #D4AF37;'>✨اهلا بكم في بيوتي سنتر يارا ثروت✨</h2>", unsafe_allow_html=True)
     for title, p in [("📆 للحجز والاستفسار", "booking"), ("💵 قائمة الأسعار", "prices"), ("🌟 رأي عملائنا", "reviews"), ("✨ صور لشغلنا", "gallery")]:
-        st.markdown(f'<a href="./?p={p}" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; text-align:center; margin-bottom:12px;">{title}</div></a>', unsafe_allow_html=True)
+        st.markdown(f'<a href="./?p={p}" target="_blank" style="text-decoration:none;color:inherit;"><div style="padding:15px; border:1px solid rgba(212, 175, 55, 0.3); border-radius:10px; text-align:center; margin-bottom:12px; font-weight: bold; background: rgba(0,0,0,0.6);">{title}</div></a>', unsafe_allow_html=True)
 
-# 5. Sidebar
+# 5. Sidebar (السايدبار)
 with st.sidebar:
     st.image(logo_url, width=150)
     st.markdown(f'<div style="background-color: {bg_color}; color: {text_color}; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid {text_color};">{status_msg}</div>', unsafe_allow_html=True)
     st.markdown(f'<a href="tel:{phone_1}" style="text-decoration:none;"><div style="background-color:#007bff; color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:10px;">📞 اتصل بنا الآن</div></a>', unsafe_allow_html=True)
     st.markdown(f'<a href="https://wa.me/?text={share_msg}" target="_blank" style="text-decoration:none;"><div style="background-color:#25D366; color:white; padding:10px; border-radius:8px; text-align:center; margin-bottom:10px;">🔗 إرسال الموقع لصديقتك</div></a>', unsafe_allow_html=True)
-    st.markdown(f'<div style="padding:10px; border:1px solid rgba(212,175,55,0.1); border-radius:5px;">📞 {phone_1}<br>📞 {phone_2}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="padding:10px; border:1px solid rgba(212,175,55,0.1); border-radius:5px; background:rgba(0,0,0,0.5); color:#fff;">📞 {phone_1}<br>📞 {phone_2}</div>', unsafe_allow_html=True)
     st.markdown("---")
     st.markdown("### 📍 العنوان\n الدقهليه - منيه النصر - \n شارع البحر - امام استار مول - \n اعلى يونيكورن - الدور الخامس")
