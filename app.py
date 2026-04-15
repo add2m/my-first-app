@@ -4,7 +4,7 @@ import os
 from datetime import datetime, timedelta
 
 # ============================================================
-# 1. إعدادات الصفحة
+# 1. إعدادات الصفحة الأساسية
 # ============================================================
 st.set_page_config(
     page_title="✨ بيوتي سنتر يارا ثروت ✨",
@@ -13,14 +13,16 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
-# --- وظيفة التعامل مع ملف الآراء ---
+# --- وظيفة التعامل مع ملف الآراء (قراءة، إضافة، حذف) ---
 def handle_reviews(action="read", data=None):
     file_path = "reviews.txt"
     if not os.path.exists(file_path):
         with open(file_path, "w", encoding="utf-8") as f: 
-            f.write("شغل ممتاز وتسلم إيديكم!|سارة")
+            f.write("شغل ممتاز وتجربة رائعة!|سارة أحمد")
+            
     with open(file_path, "r", encoding="utf-8") as f:
         reviews = f.readlines()
+        
     if action == "add" and data:
         with open(file_path, "a", encoding="utf-8") as f: 
             f.write(f"\n{data}")
@@ -32,7 +34,7 @@ def handle_reviews(action="read", data=None):
     return reviews
 
 # ============================================================
-# 2. كود الـ CSS (السايدبار يسار + تنسيق الموبايل + المقص)
+# 2. كود الـ CSS (السايدبار يسار + التصميم الملكي + المقص)
 # ============================================================
 st.markdown("""
 <style>
@@ -55,7 +57,6 @@ st.markdown("""
         border-left: none !important;
     }
 
-    /* زر السايدبار في اليسار */
     [data-testid="stSidebarCollapsedControl"] {
         left: 20px !important;
         right: auto !important;
@@ -63,11 +64,11 @@ st.markdown("""
 
     .stApp {
         background: #000000;
-        background-image: radial-gradient(at 0% 100%, rgba(212, 175, 55, 0.1) 0, transparent 50%), linear-gradient(180deg, #000000 0%, #050505 100%);
+        background-image: radial-gradient(at 0% 100%, rgba(212, 175, 55, 0.1) 0, transparent 50%), 
+                          linear-gradient(180deg, #000000 0%, #050505 100%);
         background-attachment: fixed;
     }
 
-    /* تنسيق الأزرار */
     .nav-btn {
         border: 1px solid rgba(212, 175, 55, 0.4) !important;
         background: rgba(255, 255, 255, 0.03) !important;
@@ -81,7 +82,7 @@ st.markdown("""
         font-weight: bold;
         font-size: 1.15rem;
         text-decoration: none !important;
-        transition: 0.3s;
+        transition: 0.3s ease;
     }
     .nav-btn:hover { background: #D4AF37 !important; color: #000 !important; transform: translateY(-3px); }
 
@@ -93,7 +94,6 @@ st.markdown("""
         background: rgba(255,255,255,0.02);
     }
 
-    /* المقص المتحرك */
     @keyframes scissors-swing {
         0% { transform: rotate(0deg); opacity: 0.15; }
         50% { transform: rotate(-12deg); opacity: 0.3; }
@@ -118,44 +118,50 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# 3. الثوابت
+# 3. البيانات والثوابت
 # ============================================================
 LOGO = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 WA_NUM = "201055901090"
 PHONES = ["01055901090", "01055907095"]
 ADDR = "الدقهلية - منية النصر - شارع البحر - أمام ستار مول - أعلى يونيكورن - الدور الخامس"
 ADMIN_PWD = "9811"
-VIDS = ["1eC2Vhnj9ON69lKyMPWtrXENQiDA8QnBL", "1w1PWV3eQaXAz1Cdz5WBJrtX3lDSi4hzi", "1SuxPy8-LsRE4iizxcR531sTXPeZdY-n0"]
+
+# روابط فيديوهات جوجل درايف
+VIDS = [
+    "1eC2Vhnj9ON69lKyMPWtrXENQiDA8QnBL", "1w1PWV3eQaXAz1Cdz5WBJrtX3lDSi4hzi",
+    "1SuxPy8-LsRE4iizxcR531sTXPeZdY-n0", "1wlMl0Mi7COStjKh1d8B9JxWqj7Cf-fD1",
+    "1mGeV2CQrYyJCwZkSGBrB2rhMqta8BlOU"
+]
 
 # ============================================================
-# 4. السايدبار (يسار)
+# 4. السايدبار (Sidebar)
 # ============================================================
 with st.sidebar:
     st.image(LOGO)
+    # حالة السنتر (مفتوح/مغلق)
     now = datetime.utcnow() + timedelta(hours=3)
     is_open = 13 <= now.hour < 22
-    st.markdown(f"""<div style="background:{'rgba(40,167,69,0.1)' if is_open else 'rgba(220,53,69,0.1)'}; color:{'#28a745' if is_open else '#dc3545'}; padding:12px; border-radius:10px; text-align:center; font-weight:bold; border:1px solid;">{'🟢 نتشرف بكم الآن' if is_open else '🔴 السنتر مغلق'}</div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div style="background:{'rgba(40,167,69,0.1)' if is_open else 'rgba(220,53,69,0.1)'}; color:{'#28a745' if is_open else '#dc3545'}; padding:12px; border-radius:10px; text-align:center; font-weight:bold; border:1px solid;">{'🟢 نتشرف بكم الآن' if is_open else '🔴 السنتر مغلق حالياً'}</div>""", unsafe_allow_html=True)
     st.write(" ")
     
-    # أزرار الاتصال والمشاركة
-    st.markdown(f'<a href="tel:{PHONES[0]}" target="_blank" style="text-decoration:none;"><div style="background:#007bff; color:white; padding:12px; border-radius:10px; text-align:center; margin-bottom:10px; font-weight:bold;">📞 اتصلي بنا</div></a>', unsafe_allow_html=True)
+    # أزرار الاتصال
+    st.markdown(f'<a href="tel:{PHONES[0]}" target="_blank" class="nav-btn" style="background:#007bff !important; color:white !important; padding:10px; font-size:14px;">📞 اتصلي بنا</a>', unsafe_allow_html=True)
     
+    # زر مشاركة الموقع
     share_text = "اكتشفي الجمال في بيوتي سنتر يارا ثروت ✨"
     wa_share_url = f"https://wa.me/?text={urllib.parse.quote(share_text)} https://yara-tharwat.streamlit.app/"
-    st.markdown(f'<a href="{wa_share_url}" target="_blank" style="text-decoration:none;"><div style="background:#25D366; color:white; padding:12px; border-radius:10px; text-align:center; margin-bottom:10px; font-weight:bold;">🟢 مشاركة عبر واتساب</div></a>', unsafe_allow_html=True)
+    st.markdown(f'<a href="{wa_share_url}" target="_blank" class="nav-btn" style="background:#25D366 !important; color:white !important; padding:10px; font-size:14px;">🟢 مشاركة عبر واتساب</a>', unsafe_allow_html=True)
 
-    st.markdown(f"""<div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; background:rgba(255,255,255,0.02); font-size:14px;"><b>📍 العنوان:</b><br>{ADDR}</div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; background:rgba(255,255,255,0.02); font-size:13px;"><b>📍 العنوان:</b><br>{ADDR}<br><hr><b>📱 موبايل:</b><br>{PHONES[0]}<br>{PHONES[1]}</div>""", unsafe_allow_html=True)
 
 # ============================================================
-# 5. الصفحات (المحتوى يمين)
+# 5. الصفحات والمحتوى
 # ============================================================
 p = st.query_params.get("p", "home")
 
 if p == "home":
     st.image(LOGO)
     st.markdown("<h2 style='text-align: center; color:#D4AF37;'>✨ بيوتي سنتر يارا ثروت ✨</h2>", unsafe_allow_html=True)
-    
-    # هنا تم إضافة target="_blank" لكل زر لفتحه في تابة جديدة
     menu = [
         ("📅 للحجز والاستفسار ✨💄", "booking"), 
         ("💰 قائمة الأسعار والعروض 💸", "prices"),
@@ -167,40 +173,63 @@ if p == "home":
 
 elif p == "booking":
     st.markdown("### 📅 حجز موعد جديد ✨")
-    col1, col2 = st.columns(2)
-    with col1:
-        name = st.text_input("الاسم 👤")
-        age = st.text_input("السن 🎂")
-    with col2:
-        phone = st.text_input("رقم الموبايل 📱")
-        service = st.selectbox("الخدمة ✨", ["شعر", "بشرة", "حمام مغربي", "أخرى"])
-    if st.button("🚀 إرسال الطلب", use_container_width=True):
-        if name and phone:
-            msg = f"✨ حجز جديد ✨\nالاسم: {name}\nالهاتف: {phone}\nالخدمة: {service}"
-            st.markdown(f'<meta http-equiv="refresh" content="0; url=https://wa.me/{WA_NUM}?text={urllib.parse.quote(msg)}">', unsafe_allow_html=True)
+    with st.form("booking_form"):
+        col1, col2 = st.columns(2)
+        with col1:
+            name = st.text_input("الاسم 👤")
+            age = st.text_input("السن 🎂")
+        with col2:
+            phone = st.text_input("رقم الموبايل 📱")
+            service = st.selectbox("الخدمة المطلوبة ✨", ["شعر", "بشرة", "حمام مغربي", "تجهيز عرائس", "أخرى"])
+        
+        # إضافة خانة الملاحظات المطلوبة
+        user_notes = st.text_area("ملاحظات إضافية (أو أي شيء تودين إضافته) 📝")
+        
+        submit = st.form_submit_button("🚀 إرسال الطلب عبر واتساب", use_container_width=True)
+        if submit:
+            if name and phone:
+                msg = f"✨ حجز جديد ✨\n👤 الاسم: {name}\n🎂 السن: {age}\n📱 الهاتف: {phone}\n💄 الخدمة: {service}\n📝 ملاحظات: {user_notes}"
+                st.markdown(f'<meta http-equiv="refresh" content="0; url=https://wa.me/{WA_NUM}?text={urllib.parse.quote(msg)}">', unsafe_allow_html=True)
+            else:
+                st.error("يرجى ملء الاسم ورقم الهاتف")
 
 elif p == "gallery":
-    st.markdown("### 🎥 معرض فيديوهاتنا")
+    st.markdown("### 🎥 معرض أعمالنا 🎬")
     for v_id in VIDS:
         st.markdown(f'<iframe src="https://drive.google.com/file/d/{v_id}/preview" width="100%" height="450"></iframe>', unsafe_allow_html=True)
-
-elif p == "reviews":
-    st.markdown("### ⭐ آراء الجميلات")
-    # نظام التعليقات الكامل
-    with st.form("rev"):
-        r_n = st.text_input("الاسم")
-        r_t = st.text_area("التعليق")
-        if st.form_submit_button("نشر"):
-            if r_n and r_t:
-                handle_reviews("add", f"{r_t}|{r_n}")
-                st.rerun()
-    
-    revs = handle_reviews()
-    for r in reversed(revs):
-        if "|" in r:
-            t, n = r.strip().split("|")
-            st.markdown(f'<div class="review-card">"{t}"<br><small>- {n}</small></div>', unsafe_allow_html=True)
+        st.write("---")
 
 elif p == "prices":
-    st.markdown("### 💰 الأسعار والعروض")
-    st.info("انتظروا أقوى العروض قريباً! 🔥")
+    st.markdown("### 💰 قائمة الأسعار والعروض 💸")
+    st.info("سيتم تحديث قائمة الأسعار بأحدث العروض قريباً جداً.. انتظرونا! 🔥")
+
+elif p == "reviews":
+    st.markdown("### ⭐ آراء الجميلات 💖")
+    with st.expander("✨ اتركي بصمتك.. أضيفي رأيك هنا"):
+        with st.form("add_rev"):
+            r_n = st.text_input("الاسم المستعار")
+            r_t = st.text_area("رأيك في خدماتنا")
+            if st.form_submit_button("نشر الرأي"):
+                if r_n and r_t:
+                    handle_reviews("add", f"{r_t}|{r_n}")
+                    st.success("شكراً لثقتك! تم النشر.")
+                    st.rerun()
+
+    all_revs = handle_reviews()
+    for rev in reversed(all_revs):
+        if "|" in rev:
+            try:
+                t, n = rev.strip().split("|")
+                st.markdown(f'<div class="review-card">"{t}"<br><small style="color:#D4AF37;">— {n}</small></div>', unsafe_allow_html=True)
+            except: continue
+    
+    st.write("---")
+    with st.expander("🔐 إدارة التعليقات (للإدارة فقط)"):
+        pwd = st.text_input("كلمة مرور الإدارة", type="password")
+        if pwd == ADMIN_PWD:
+            for i, rev in enumerate(all_revs):
+                if "|" in rev:
+                    content, sender = rev.strip().split("|")
+                    if st.button(f"🗑️ حذف: {sender}", key=f"del_{i}"):
+                        handle_reviews("delete_one", i)
+                        st.rerun()
