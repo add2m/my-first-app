@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
-# --- وظيفة التعامل مع ملف الآراء (قراءة، إضافة، حذف) ---
+# --- وظيفة التعامل مع ملف الآراء ---
 def handle_reviews(action="read", data=None):
     file_path = "reviews.txt"
     if not os.path.exists(file_path):
@@ -34,7 +34,7 @@ def handle_reviews(action="read", data=None):
     return reviews
 
 # ============================================================
-# 2. كود الـ CSS (زر القائمة المميز + السايدبار + التصميم)
+# 2. كود الـ CSS (التصميم الملكي وزر القائمة)
 # ============================================================
 st.markdown("""
 <style>
@@ -46,7 +46,6 @@ st.markdown("""
         text-align: right;
     }
 
-    /* إجبار السايدبار على اليسار والمحتوى يمين */
     [data-testid="stAppViewContainer"] {
         flex-direction: row-reverse !important;
     }
@@ -54,10 +53,8 @@ st.markdown("""
     [data-testid="stSidebar"] {
         background-color: #080808 !important;
         border-right: 2px solid #D4AF37;
-        border-left: none !important;
     }
 
-    /* تصميم زر القائمة الجانبية المطور */
     @keyframes pulse-gold {
         0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
         70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
@@ -77,7 +74,6 @@ st.markdown("""
         border: 1px solid rgba(255,255,255,0.3) !important;
     }
     
-    /* تغيير لون أيقونة الأشرطة للأبيض لتظهر بوضوح */
     [data-testid="stSidebarCollapsedControl"] svg {
         fill: white !important;
         width: 25px !important;
@@ -131,10 +127,7 @@ st.markdown("""
         animation: scissors-swing 8s infinite;
     }
 
-    header[data-testid="stHeader"] {
-        background: transparent !important;
-    }
-    
+    header[data-testid="stHeader"] { background: transparent !important; }
     footer, #MainMenu { visibility: hidden; }
 </style>
 
@@ -144,7 +137,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# 3. البيانات والثوابت
+# 3. الثوابت والبيانات
 # ============================================================
 LOGO = "https://i.postimg.cc/43LvfZ27/Screenshot-2026-04-11-005540.png"
 WA_NUM = "201055901090"
@@ -152,7 +145,6 @@ PHONES = ["01055901090", "01055907095"]
 ADDR = "الدقهلية - منية النصر - شارع البحر - أمام ستار مول - أعلى يونيكورن - الدور الخامس"
 ADMIN_PWD = "9811"
 
-# روابط فيديوهات جوجل درايف
 VIDS = [
     "1eC2Vhnj9ON69lKyMPWtrXENQiDA8QnBL", "1w1PWV3eQaXAz1Cdz5WBJrtX3lDSi4hzi",
     "1SuxPy8-LsRE4iizxcR531sTXPeZdY-n0", "1wlMl0Mi7COStjKh1d8B9JxWqj7Cf-fD1",
@@ -160,7 +152,7 @@ VIDS = [
 ]
 
 # ============================================================
-# 4. السايدبار (Sidebar)
+# 4. السايدبار
 # ============================================================
 with st.sidebar:
     st.image(LOGO)
@@ -168,15 +160,10 @@ with st.sidebar:
     is_open = 13 <= now.hour < 22
     st.markdown(f"""<div style="background:{'rgba(40,167,69,0.1)' if is_open else 'rgba(220,53,69,0.1)'}; color:{'#28a745' if is_open else '#dc3545'}; padding:12px; border-radius:10px; text-align:center; font-weight:bold; border:1px solid;">{'🟢 نتشرف بكم الآن' if is_open else '🔴 السنتر مغلق حالياً'}</div>""", unsafe_allow_html=True)
     st.write(" ")
-    
-    # أزرار الاتصال تفتح في تاب جديدة
     st.markdown(f'<a href="tel:{PHONES[0]}" target="_blank" class="nav-btn" style="background:#007bff !important; color:white !important; padding:10px; font-size:14px;">📞 اتصلي بنا</a>', unsafe_allow_html=True)
-    
-    # زر مشاركة الموقع يفتح في تاب جديدة
     share_text = "شوفت بيوتي سنتر يارا ثروت وعجبني شغله ادخلي شوفيه انتي كمان اللينك ده"
     wa_share_url = f"https://wa.me/?text={urllib.parse.quote(share_text)} https://yara-tharwat.streamlit.app/"
     st.markdown(f'<a href="{wa_share_url}" target="_blank" class="nav-btn" style="background:#25D366 !important; color:white !important; padding:10px; font-size:14px;">🟢 مشاركة عبر واتساب</a>', unsafe_allow_html=True)
-
     st.markdown(f"""<div style="padding:15px; border:1px solid rgba(212,175,55,0.2); border-radius:10px; background:rgba(255,255,255,0.02); font-size:13px;"><b>📍 العنوان:</b><br>{ADDR}<br><hr><b>📱 موبايل:</b><br>{PHONES[0]}<br>{PHONES[1]}</div>""", unsafe_allow_html=True)
 
 # ============================================================
@@ -194,30 +181,27 @@ if p == "home":
         ("⭐ آراء العملاء 💖", "reviews")
     ]
     for text, target in menu:
-        # استخدام target="_blank" لفتح الأزرار في نافذة جديدة
         st.markdown(f'<a href="./?p={target}" target="_blank" class="nav-btn">{text}</a>', unsafe_allow_html=True)
 
 elif p == "booking":
     st.markdown("### 📅 حجز موعد جديد ✨")
-    with st.form("booking_form"):
-        col1, col2 = st.columns(2)
-        with col1:
-            name = st.text_input("الاسم 👤")
-            age = st.text_input("السن 🎂")
-        with col2:
-            phone = st.text_input("رقم الموبايل 📱")
-            service = st.selectbox("الخدمة المطلوبة ✨", ["شعر", "بشرة", "أخرى"])
-        
-        user_notes = st.text_area("ملاحظات إضافية  📝")
-        
-        submit = st.form_submit_button("🚀 إرسال الطلب عبر واتساب", use_container_width=True)
-        if submit:
-            if name and phone:
-                msg = f"✨ حجز جديد ✨\n--------------------------------------------------\n👤 الاسم: {name}\n🎂 السن: {age}\n📱 الهاتف: {phone}\n💄 الخدمة: {service}\n📝 ملاحظات: {user_notes}"
-                # الحجز يفتح واتساب في تاب جديد
-                st.markdown(f'<script>window.open("https://wa.me/{WA_NUM}?text={urllib.parse.quote(msg)}", "_blank").focus();</script>', unsafe_allow_html=True)
-            else:
-                st.error("يرجى ملء الاسم ورقم الهاتف على الاقل")
+    # الإصلاح: تم إخراج زر الإرسال ليكون رابطاً مباشراً لضمان عمله في كل المتصفحات
+    col1, col2 = st.columns(2)
+    with col1:
+        name = st.text_input("الاسم 👤", key="b_name")
+        age = st.text_input("السن 🎂", key="b_age")
+    with col2:
+        phone = st.text_input("رقم الموبايل 📱", key="b_phone")
+        service = st.selectbox("الخدمة المطلوبة ✨", ["شعر", "بشرة", "أخرى"], key="b_service")
+    
+    user_notes = st.text_area("ملاحظات إضافية  📝", key="b_notes")
+    
+    if name and phone:
+        msg = f"✨ حجز جديد ✨\n--------------------------------------------------\n👤 الاسم: {name}\n🎂 السن: {age}\n📱 الهاتف: {phone}\n💄 الخدمة: {service}\n📝 ملاحظات: {user_notes}"
+        final_wa_url = f"https://wa.me/{WA_NUM}?text={urllib.parse.quote(msg)}"
+        st.markdown(f'<a href="{final_wa_url}" target="_blank" class="nav-btn" style="background:#D4AF37 !important; color:black !important;">🚀 إرسال الطلب عبر واتساب</a>', unsafe_allow_html=True)
+    else:
+        st.warning("⚠️ يرجى كتابة الاسم ورقم الهاتف لتفعيل زر الإرسال")
 
 elif p == "gallery":
     st.markdown("### 🎥 معرض أعمالنا 🎬")
@@ -250,7 +234,7 @@ elif p == "reviews":
             except: continue
     
     st.write("---")
-    with st.expander("🔐 إدارة التعليقات (للإدارة فقط)"):
+    with st.expander("🔐 إدارة التعليقات"):
         pwd = st.text_input("كلمة مرور الإدارة", type="password")
         if pwd == ADMIN_PWD:
             for i, rev in enumerate(all_revs):
